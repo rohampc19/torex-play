@@ -4,6 +4,8 @@
   const BRAND_NAME = "TOREX PLAY";
   const path = location.pathname.toLowerCase();
   const current = path.includes("leaderboard") ? "leaderboard" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
+  const pageTitles = { home: "خانه", news: "اخبار", chat: "چت", profile: "پروفایل", leaderboard: "جدول امتیازات" };
+  document.title = `${BRAND_NAME} | ${pageTitles[current] || ""}`;
   const items = [
     { key: "home", href: "index.html", label: "خانه", icon: "fa-house" },
     { key: "news", href: "news.html", label: "اخبار", icon: "fa-newspaper" },
@@ -36,17 +38,12 @@
         location.href = "index.html";
       });
     }
-    document.querySelectorAll(".global-nav__link, .global-login, .global-user").forEach(link => {
-      link.addEventListener("click", () => document.body.classList.add("page-leaving"), { passive: true });
-    });
+    document.querySelectorAll(".global-nav__link, .global-login, .global-user").forEach(link => link.addEventListener("click", () => document.body.classList.add("page-leaving"), { passive: true }));
   }
   window.TOREXToast = function (message, type = "info") {
     let box = document.querySelector(".torex-toast-container");
     if (!box) { box = document.createElement("div"); box.className = "torex-toast-container"; document.body.appendChild(box); }
-    const toast = document.createElement("div");
-    toast.className = `torex-toast torex-toast--${type}`;
-    toast.textContent = message;
-    box.appendChild(toast);
+    const toast = document.createElement("div"); toast.className = `torex-toast torex-toast--${type}`; toast.textContent = message; box.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add("is-visible"));
     setTimeout(() => { toast.classList.remove("is-visible"); setTimeout(() => toast.remove(), 220); }, 2600);
   };
