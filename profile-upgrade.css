@@ -1,0 +1,32 @@
+/* TOREX PLAY profile visual upgrade - additive layer */
+.profile-upgrade-shell{position:relative;z-index:1}
+.profile-container{width:min(1120px,94%);margin:28px auto 110px}
+.profile-page-title{margin:22px 0 22px}
+.profile-page-title h1{font-size:clamp(28px,4vw,42px);letter-spacing:-.5px}
+.profile-page-title p{max-width:680px}
+.profile-edit-card,.favorite-games-edit,.account-section,.profile-statistics{border-color:rgba(110,180,255,.16);box-shadow:0 24px 80px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.04)}
+.profile-edit-card{overflow:visible}
+.profile-edit-cover{height:190px;background:radial-gradient(circle at 15% 35%,rgba(0,210,255,.24),transparent 25%),radial-gradient(circle at 82% 35%,rgba(110,70,255,.30),transparent 30%),linear-gradient(120deg,#081326,#10113a 48%,#071d2b)}
+.profile-edit-cover:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.05) 50%,transparent 80%);transform:translateX(-100%);animation:coverSweep 7s ease-in-out infinite}
+@keyframes coverSweep{50%,100%{transform:translateX(100%)}}
+.avatar-section{margin-top:-62px}
+.profile-avatar-edit{width:126px;height:126px;box-shadow:0 0 0 5px rgba(5,9,18,.75),0 0 45px rgba(55,155,255,.38)}
+.choose-profile-button{background:rgba(10,18,34,.82);border-color:rgba(80,170,255,.25)}
+.profile-edit-content{padding:38px}
+.input-wrapper,.form-group textarea{background:rgba(3,8,18,.38);border-color:rgba(120,175,230,.13)}
+.input-wrapper:focus-within,.form-group textarea:focus{border-color:rgba(70,180,255,.7);box-shadow:0 0 0 4px rgba(40,145,255,.08),0 0 30px rgba(40,145,255,.12)}
+.save-button{background:linear-gradient(135deg,#168cff,#6d4cff);border:1px solid rgba(255,255,255,.14);color:#fff;box-shadow:0 12px 28px rgba(52,120,255,.2)}
+.save-button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.profile-statistics{position:relative;margin:25px 0;padding:28px;border-radius:25px;background:linear-gradient(145deg,rgba(15,25,48,.84),rgba(8,12,25,.72));backdrop-filter:blur(24px);overflow:hidden}
+.profile-statistics:before{content:"";position:absolute;width:280px;height:280px;left:-130px;top:-150px;background:#168cff;border-radius:50%;filter:blur(100px);opacity:.13}
+.profile-public-head{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+.profile-public-avatar{width:62px;height:62px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#168cff,#704cff);font-weight:900;font-size:22px;box-shadow:0 10px 35px rgba(55,125,255,.22)}
+.profile-public-identity{flex:1}.profile-public-identity h2{font-size:20px}.profile-public-identity p{margin-top:3px;color:#8490a5;font-size:12px}.profile-public-head>strong{font-size:13px;color:#8fd4ff;white-space:nowrap}
+.profile-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;position:relative;z-index:1}
+.profile-stat-card{padding:18px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:rgba(255,255,255,.035);transition:.25s}.profile-stat-card:hover{transform:translateY(-4px);border-color:rgba(80,170,255,.3);background:rgba(60,150,255,.06)}.profile-stat-card span{display:block;color:#778399;font-size:11px}.profile-stat-card strong{display:block;margin-top:7px;font-size:22px}.profile-stat-card small{display:block;margin-top:4px;color:#4faaff;font-size:10px}
+.profile-social-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.profile-stat-link{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);color:#dbe7f5;border-radius:12px;padding:9px 13px;font:inherit;font-size:11px;cursor:pointer;transition:.25s}.profile-stat-link:hover{background:rgba(65,150,255,.1);border-color:rgba(70,170,255,.28)}
+.profile-public-games{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.profile-public-game{padding:7px 11px;border-radius:999px;background:rgba(75,155,255,.08);border:1px solid rgba(75,155,255,.15);font-size:11px;color:#b8dcff}
+.profile-published-news{margin-top:16px;padding:14px;border-radius:16px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.06)}
+.profile-published-news[hidden]{display:none}.profile-news-mini{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}.profile-news-mini:last-child{border-bottom:0}.profile-news-mini strong{font-size:12px}.profile-news-mini span{display:block;color:#738097;font-size:10px;margin-top:4px}
+.favorite-games-edit,.account-section{padding:34px}.selected-games{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.selected-game{border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.14);border-radius:16px;padding:13px;transition:.25s}.selected-game:hover{border-color:rgba(70,170,255,.28);transform:translateY(-2px)}
+@media(max-width:760px){.profile-container{width:min(94%,620px);margin-top:18px}.profile-edit-content,.favorite-games-edit,.account-section,.profile-statistics{padding:22px}.form-grid,.profile-stats-grid,.selected-games{grid-template-columns:1fr}.profile-public-head{align-items:flex-start}.profile-public-head>strong{margin-right:auto}.profile-page-title h1{font-size:29px}.profile-edit-cover{height:155px}.profile-avatar-edit{width:108px;height:108px}}
