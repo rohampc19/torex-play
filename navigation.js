@@ -13,29 +13,31 @@
     { key: "profile", href: "profile.html", label: "پروفایل", icon: "fa-user" },
     { key: "leaderboard", href: "leaderboard.html", label: "امتیازات", icon: "fa-ranking-star" }
   ];
+  function loadPolish() {
+    if (document.querySelector('link[data-torex-polish]')) return;
+    const link = document.createElement("link"); link.rel = "stylesheet"; link.href = "site-polish.css"; link.dataset.torexPolish = "1"; document.head.appendChild(link);
+  }
   function markup() {
     return `<header class="global-header" data-global-header><div class="global-header__inner"><a class="global-brand" href="index.html" aria-label="TOREX PLAY"><span class="global-brand__mark"><i class="fa-solid fa-gamepad"></i></span><span class="global-brand__text">${BRAND_NAME}</span></a><nav class="global-nav" aria-label="ناوبری اصلی">${items.map(item => `<a class="global-nav__link${item.key === current ? " is-active" : ""}" data-page="${item.key}" href="${item.href}"><i class="fa-solid ${item.icon}" aria-hidden="true"></i><span>${item.label}</span></a>`).join("")}</nav><div class="global-actions"><a class="global-login" href="login.html"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>ورود</span></a><a class="global-user" href="profile.html" hidden></a></div></div></header>`;
   }
   const LEGACY_SELECTORS = [".mobile-nav", ".mobile-bottom-nav", ".mobile-chat-nav", ".community-mobile-nav", ".bottom-nav", ".home-header", ".site-header", ".profile-header", ".slim-nav", ".main-header"];
   function mount() {
+    loadPolish();
     document.querySelectorAll("[data-global-header], .global-header").forEach(node => node.remove());
     LEGACY_SELECTORS.forEach(selector => document.querySelectorAll(selector).forEach(node => node.remove()));
     if (!document.body) return;
     document.body.insertAdjacentHTML("afterbegin", markup());
     document.body.classList.add("has-global-navigation");
     const user = typeof window.getUser === "function" ? window.getUser() : null;
-    const login = document.querySelector(".global-login");
-    const userLink = document.querySelector(".global-user");
+    const login = document.querySelector(".global-login"); const userLink = document.querySelector(".global-user");
     if (user && login && userLink) {
-      login.hidden = true;
-      userLink.hidden = false;
+      login.hidden = true; userLink.hidden = false;
       userLink.innerHTML = `<i class="fa-solid fa-user"></i><span>${String(user.name || "پروفایل")}</span>`;
       userLink.title = "پروفایل کاربر";
       userLink.insertAdjacentHTML("afterend", '<button type="button" class="global-logout">خروج</button>');
       document.querySelector(".global-logout").addEventListener("click", async () => {
         try { if (window.PERFASHINALRequest) await window.PERFASHINALRequest("/logout", { method: "POST" }); } catch (_) {}
-        ["PERFASHINALUser", "PERFASHINALToken", "PERFASHINALLoggedIn"].forEach(key => localStorage.removeItem(key));
-        location.href = "index.html";
+        ["PERFASHINALUser", "PERFASHINALToken", "PERFASHINALLoggedIn"].forEach(key => localStorage.removeItem(key)); location.href = "index.html";
       });
     }
     document.querySelectorAll(".global-nav__link, .global-login, .global-user").forEach(link => link.addEventListener("click", () => document.body.classList.add("page-leaving"), { passive: true }));
