@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خبر | PERFASHINAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./news.css">
+    <link rel="stylesheet" href="./core.css">
+</head>
+
+<body>
+    <!-- NEWS DETAIL -->
+    <main class="news-detail-page">
+        <article class="insta-post" id="newsPost">
+            <div class="article-cover" id="articleCover"><div class="article-cover__glow"></div><span class="article-cover__label" id="articleBreaking"></span></div>
+            <div class="article-badges"><span class="card-category" id="postCategory">خبر</span><span id="postOfficial" class="official-badge" hidden>✓ این خبر رسماً توسط ادمین منتشر شده است</span></div>
+            <!-- HEADER: نویسنده -->
+            <header class="insta-post__header">
+                <button type="button" class="insta-post__author" id="postAuthor">
+                    <span class="PERFASHINAL-author__avatar insta-post__avatar" id="postAvatar">T</span>
+                    <span class="insta-post__names">
+                        <strong id="postAuthorName">
+                            ادمین PERFASHINAL
+                            <span class="PERFASHINAL-verified">✓</span>
+                        </strong>
+                        <small id="postAuthorHandle">@admin</small>
+                    </span>
+                </button>
+                <button type="button" class="insta-follow" id="followButton">
+                    دنبال کردن
+                </button>
+            </header>
+            <!-- IMAGE -->
+            <div class="insta-post__image" id="postImage">
+                <i class="fa-solid fa-newspaper"></i>
+            </div>
+            <!-- ACTIONS -->
+            <div class="insta-post__actions">
+                <button type="button" id="likeButton" aria-label="لایک"><span>♡</span><small>پسند</small><strong id="likeCount">0</strong></button>
+                <button type="button" id="commentFocus" aria-label="دیدگاه"><span>◌</span><small>نظر</small><strong id="commentCount">0</strong></button>
+                <button type="button" id="shareButton" aria-label="اشتراک‌گذاری"><span>↗</span><small>اشتراک</small></button>
+                <button type="button" id="viewProfileButton" class="insta-post__profile-btn">
+                    <i class="fa-solid fa-user"></i>
+                    پروفایل نویسنده
+                </button>
+            </div>
+            <!-- CONTENT -->
+            <div class="insta-post__body">
+                <div class="article-meta-extra"><span id="postGame">بازی مرتبط</span><span id="postViews">۰ بازدید</span><span id="postDateTime">—</span></div>
+                <p class="article-summary" id="postSummary"></p>
+                <h1 id="postTitle">در حال بارگذاری...</h1>
+                <div class="article-content" id="postText"></div>
+                <div class="PERFASHINAL-news-tags" id="postTags"></div>
+                <time id="postTime"></time>
+            </div>
+            <!-- COMMENTS -->
+            <section class="insta-comments">
+                <div class="comments-heading"><div><span class="eyebrow">COMMUNITY</span><h2>نظرات</h2></div><span id="commentCountLabel"></span></div>
+                <div class="insta-comments__list" id="commentsList">
+                </div>
+                <form class="insta-comment-form" id="commentForm"><span class="comment-form-avatar">A</span><input type="text" id="commentInput" placeholder="نظر خود را بنویسید..." maxlength="300" autocomplete="off"><button type="submit" disabled>ارسال</button></form>
+                <section class="related-articles" id="relatedArticles" hidden><h2>مطالب مرتبط</h2><div></div></section>
+            </section>
+        </article>
+    </main>
+    <dialog class="share-dialog" id="shareDialog"><div><h2>اشتراک‌گذاری خبر</h2><p>لینک خبر را با دوستانت به اشتراک بگذار.</p><input id="shareUrl" readonly><button type="button" id="copyShareLink">کپی لینک</button><button type="button" id="closeShareDialog">بستن</button></div></dialog>
+    <script src="./app.js"></script>
+    <script src="./demo-data.js"></script>
+    <script src="./news-detail.js"></script>
+    <script src="./navigation.js"></script>
+</body>
+
+</html>

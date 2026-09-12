@@ -1,0 +1,156 @@
+{
+  "users": [
+    {
+      "id": "u-admin",
+      "username": "admin",
+      "name": "ادمین",
+      "phone": "09120000000",
+      "password": "pbkdf2$120000$7d106ee21ab4c854613fad918ef9f986$7a82d6c168585e21a3c687bc8089a93aaaeba3f2a3e878e6fd6c9c4b0611ea60",
+      "score": 9999,
+      "favoriteGame": "—",
+      "avatar": "A",
+      "role": "admin",
+      "status": "approved",
+      "friends": [
+        "tester1"
+      ]
+    },
+    {
+      "id": "u-2a93aafd-749f-46b3-bd41-1713dd26d2e3",
+      "username": "tester1",
+      "name": "tester1",
+      "phone": "09121112233",
+      "password": "pbkdf2$120000$81c60e659228d47182252fdaf6d2f39d$99f97218f79f696ec120b8b84719618fcc3948e751c675341971a69e65ceb6eb",
+      "score": 0,
+      "favoriteGame": "—",
+      "avatar": "T",
+      "status": "approved",
+      "friends": [
+        "admin"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "m-1788718735961",
+      "conversation": "tester1",
+      "sender": "admin",
+      "text": "سلام! پیام تست.",
+      "createdAt": "2026-09-06T18:18:55.961Z",
+      "read": false
+    }
+  ],
+  "news": [
+    {
+      "id": "n-gta6",
+      "title": "جزئیات تازه از یکی از موردانتظارترین بازی‌های سال",
+      "excerpt": "نگاهی به خبرهای مهم این هفته از دنیای بازی و به‌روزرسانی‌های استودیوها.",
+      "text": "تازه‌ترین گزارش‌ها از روند توسعه و برنامه‌های آینده منتشر شده است. این خبر با تمرکز بر اطلاعات قابل بررسی و بدون شایعه‌پردازی گردآوری شده است.",
+      "category": "gaming",
+      "tags": [
+        "Gaming",
+        "Updates"
+      ],
+      "author": "admin",
+      "authorName": "ادمین",
+      "verified": true,
+      "image": "",
+      "likes": [],
+      "comments": [],
+      "createdAt": "2026-09-06T18:15:22.056Z",
+      "publishedAt": "2026-09-06T18:15:22.057Z",
+      "views": 2401,
+      "status": "published"
+    },
+    {
+      "id": "n-esports",
+      "title": "تقویم رقابت‌های مهم ورزش‌های الکترونیک",
+      "excerpt": "مسابقات مهم این ماه را از دست ندهید؛ برنامه و نتایج در جامعه گیمرها دنبال می‌شود.",
+      "text": "از رقابت‌های تیمی تا مسابقات انفرادی، رویدادهای مهم ماه را در دسته ورزش الکترونیک دنبال کنید.",
+      "category": "esports",
+      "tags": [
+        "Esports"
+      ],
+      "author": "admin",
+      "authorName": "ادمین",
+      "verified": true,
+      "image": "",
+      "likes": [],
+      "comments": [],
+      "createdAt": "2026-09-05T18:15:22.057Z",
+      "publishedAt": "2026-09-05T18:15:22.057Z",
+      "views": 980,
+      "status": "published"
+    },
+    {
+      "id": "n-hardware",
+      "title": "راهنمای کوتاه ارتقای سیستم برای بازی روان‌تر",
+      "excerpt": "قبل از خرید قطعه جدید، این نکات را برای انتخاب هوشمندانه بررسی کنید.",
+      "text": "ارتقای سیستم همیشه به معنای خرید گران‌ترین قطعه نیست. ابتدا گلوگاه سیستم را پیدا کنید و سپس اولویت ارتقا را مشخص کنید.",
+      "category": "hardware",
+      "tags": [
+        "Hardware",
+        "PC"
+      ],
+      "author": "admin",
+      "authorName": "ادمین",
+      "verified": true,
+      "image": "",
+      "likes": [],
+      "comments": [],
+      "createdAt": "2026-09-04T18:15:22.057Z",
+      "publishedAt": "2026-09-04T18:15:22.057Z",
+      "views": 640,
+      "status": "published"
+    }
+  ],
+  "follows": [],
+  "notifications": [
+    {
+      "id": "no-1788718735947-do1c",
+      "user": "tester1",
+      "type": "friend",
+      "from": "admin",
+      "text": "@admin تو را به فهرست دوستان اضافه کرد.",
+      "read": false,
+      "createdAt": "2026-09-06T18:18:55.947Z"
+    }
+  ],
+  "sessions": [
+    {
+      "token": "405e9d86a50cb9dccf76d225cf636aa0565a70c73d2bf50e",
+      "userId": "u-admin",
+      "createdAt": "2026-09-06T18:16:01.678Z"
+    },
+    {
+      "token": "2e09b1f82c9543ce90da9eb90a133d031d66d72898b26afd",
+      "userId": "u-admin",
+      "createdAt": "2026-09-06T18:16:56.591Z"
+    },
+    {
+      "token": "100207c51b81f49e5e6bd884c80b5642c98ca66678c1d022",
+      "userId": "u-admin",
+      "createdAt": "2026-09-06T18:17:40.580Z"
+    },
+    {
+      "token": "81df66b8a0c2cc621be716bf3a36bcfef4b338d193589a33",
+      "userId": "u-admin",
+      "createdAt": "2026-09-06T18:18:55.931Z"
+    },
+    {
+      "token": "6aa81bfb230838210050dad1438db012c3ee070aae367bcf",
+      "userId": "u-admin",
+      "createdAt": "2026-09-07T10:50:21.653Z"
+    },
+    {
+      "token": "5956e1451c68e7a66ded085373120ae09887ca78b4a55a05",
+      "userId": "u-admin",
+      "createdAt": "2026-09-07T10:50:59.999Z"
+    },
+    {
+      "token": "3fcaa3c76ebb641464708c86404e1a1a716838b854cbb436",
+      "userId": "u-admin",
+      "createdAt": "2026-09-07T10:57:32.485Z"
+    }
+  ]
+}

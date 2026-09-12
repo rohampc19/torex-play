@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>انتشار خبر</title>
+    <link rel="stylesheet" href="core.css">
+    <link rel="stylesheet" href="news-publish.css">
+</head>
+
+<body>
+    <main class="publish-page">
+        <section class="publish-shell">
+            <div class="publish-heading"><span class="card-category">NEWS STUDIO</span>
+                <h1>انتشار خبر</h1>
+                <p>خبرت را با جامعه گیمرها به اشتراک بگذار.</p>
+            </div>
+            <form id="publishForm" class="publish-form">
+                <div class="publish-grid">
+                    <div><label class="upload-box" id="uploadBox"><input id="imageInput" type="file"
+                                accept="image/png,image/jpeg,image/webp"><span
+                                class="upload-icon">＋</span><strong>انتخاب تصویر</strong><small>PNG، JPG یا WebP تا ۶۵۰
+                                کیلوبایت</small><img id="imagePreview" alt="پیش‌نمایش تصویر" hidden></label>
+                        <div class="upload-actions"><button type="button" class="button" id="changeImage">تغییر
+                                تصویر</button><button type="button" class="button second-button"
+                                id="removeImage">حذف</button></div>
+                    </div>
+                    <div class="publish-fields"><label>عنوان خبر<input id="title" maxlength="140" required
+                                placeholder="عنوان خبر را بنویس"></label><label>بازی یا موضوع<input id="game" maxlength="80" placeholder="مثلاً GTA V یا PC"></label><label>خبر درباره چیست؟<input id="excerpt"
+                                maxlength="240" placeholder="یک خلاصه کوتاه"></label><label>محتوای کامل خبر<textarea
+                                id="text" maxlength="3000" required
+                                placeholder="متن کامل خبر..."></textarea></label><label>دسته‌بندی<select id="category">
+                                <option value="gaming">Gaming</option>
+                                <option value="esports">Esports</option>
+                                <option value="hardware">Hardware Updates</option>
+                            </select></label><label>هشتگ‌ها<input id="tags"
+                                placeholder="#Gaming #Esports #Hardware"><small class="field-hint">هشتگ‌ها دسته‌بندی
+                                مناسب را به‌صورت خودکار تعیین می‌کنند.</small></label></div>
+                </div>
+                <div class="publish-actions"><a class="button second-button" href="news.html">انصراف</a><button
+                        class="button second-button" type="button" id="previewButton">پیش‌نمایش</button><button
+                        class="main-button" type="submit" id="publishButton">انتشار خبر</button></div>
+                <p id="publishStatus" class="publish-status" aria-live="polite"></p>
+            </form>
+        </section>
+        <aside class="preview-panel" id="previewPanel"><span class="card-category">LIVE PREVIEW</span>
+            <h2>پیش‌نمایش خبر</h2>
+            <article class="preview-card">
+                <div class="preview-image" id="previewImage"></div>
+                <div class="preview-content"><span class="card-category" id="previewCategory">Gaming</span>
+                    <h3 id="previewTitle">عنوان خبر</h3>
+                    <div class="preview-meta" id="previewGame">بازی یا موضوع: —</div>
+                    <p id="previewExcerpt">خلاصه خبر اینجا نمایش داده می‌شود.</p>
+                    <div class="preview-tags" id="previewTags"></div><span class="preview-official" id="previewOfficial" hidden>✓ این خبر رسماً توسط ادمین منتشر شده است</span><small class="preview-author">نویسنده: شما</small>
+                </div>
+            </article>
+        </aside>
+    </main>
+    <script src="app.js"></script>
+    <script src="navigation.js"></script>
+    <script src="news-publish.js"></script>
+</body>
+
+</html>
