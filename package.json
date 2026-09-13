@@ -9,7 +9,7 @@
     "dev": "node realtime-server.js",
     "start:api": "node server.js",
     "test": "node --test",
-    "check": "node --check server.js && node --check realtime-server.js && node --check app.js && node --check chat-v2.js && node --check admin-panel.js",
+    "check": "node --check server.js && node --check realtime-server.js && node --check src/config.js && node --check src/http/json-response.js && node --check src/realtime/stream-manager.js && node --check src/realtime/upstream-client.js && node --check app.js && node --check chat-v2.js && node --check admin-panel.js",
     "check:all": "npm run check && npm test"
   },
   "engines": {
