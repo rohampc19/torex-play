@@ -1,7 +1,7 @@
 "use strict";
 
 /* TOREX PLAY — Messenger V2
-   Defensive client: optional controls never crash the whole page. */
+   Realtime client: initial history + authenticated SSE, no polling. */
 document.addEventListener("DOMContentLoaded", () => {
   const api = window.PERFASHINALRequest;
   const user = typeof getUser === "function" ? getUser() : null;
@@ -28,9 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let contacts = [];
   let active = null;
-  let pollTimer = null;
+  let realtimeController = null;
+  let realtimeReconnectTimer = null;
+  let realtimeReconnectAttempt = 0;
   let sending = false;
   let loadingMessages = false;
+  const renderedMessageIds = new Set();
 
   const time = value => {
     const date = new Date(value);
@@ -41,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setConversationState(text, type = "empty-conversation") {
     messages.replaceChildren();
+    renderedMessageIds.clear();
     const box = document.createElement("p");
     box.className = type;
     box.textContent = text;
@@ -52,9 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderMessage(item) {
+    if (!item || !item.id || renderedMessageIds.has(item.id)) return;
+    renderedMessageIds.add(item.id);
     const mine = !!user && item.sender === user.username;
     const row = document.createElement("div");
     row.className = `message-row ${mine ? "sent" : "received"}`;
+    row.dataset.messageId = item.id;
     if (!mine) {
       const avatar = document.createElement("span");
       avatar.className = "small-avatar";
@@ -72,29 +79,27 @@ document.addEventListener("DOMContentLoaded", () => {
     messages.append(row);
   }
 
-  function renderEmptyFriends() {
-    list.replaceChildren();
-    const box = document.createElement("div");
-    box.className = "empty-friends";
-    const strong = document.createElement("strong");
-    strong.textContent = "هنوز دوستی نداری";
-    const p = document.createElement("p");
-    p.textContent = "با وارد کردن آیدی یک بازیکن می‌تونی دوست جدید اضافه کنی.";
-    box.append(strong, p);
-    if (addFriendButton) {
-      const cta = document.createElement("button");
-      cta.type = "button";
-      cta.className = "add-friend-button";
-      cta.textContent = "+ افزودن دوست";
-      cta.addEventListener("click", openAddFriendModal);
-      box.append(cta);
-    }
-    list.append(box);
-  }
-
   function renderContacts(filtered = contacts) {
     list.replaceChildren();
-    if (!contacts.length) return renderEmptyFriends();
+    if (!contacts.length) {
+      const box = document.createElement("div");
+      box.className = "empty-friends";
+      const strong = document.createElement("strong");
+      strong.textContent = "هنوز دوستی نداری";
+      const p = document.createElement("p");
+      p.textContent = "با وارد کردن آیدی یک بازیکن می‌تونی دوست جدید اضافه کنی.";
+      box.append(strong, p);
+      if (addFriendButton) {
+        const cta = document.createElement("button");
+        cta.type = "button";
+        cta.className = "add-friend-button";
+        cta.textContent = "+ افزودن دوست";
+        cta.addEventListener("click", openAddFriendModal);
+        box.append(cta);
+      }
+      list.append(box);
+      return;
+    }
     if (!filtered.length) {
       const empty = document.createElement("div");
       empty.className = "chat-empty";
@@ -139,7 +144,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (active) active = contacts.find(c => c.username === active.username) || active;
       const query = normalize(search?.value);
       renderContacts(query ? contacts.filter(c => normalize(c.username).includes(query) || normalize(c.name).includes(query)) : contacts);
-      if (active && !contacts.some(c => c.username === active.username)) active = null;
+      if (active && !contacts.some(c => c.username === active.username)) {
+        active = null;
+        stopRealtime();
+      }
       if (!active && contacts[0]) activate(contacts[0]);
     } catch (error) {
       list.replaceChildren(); const box = document.createElement("p"); box.className = "error-state"; box.textContent = error.message || "دریافت دوستان ناموفق بود."; list.append(box);
@@ -152,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const data = await api(`/messages?conversation=${encodeURIComponent(active.username)}`);
       messages.replaceChildren();
+      renderedMessageIds.clear();
       const items = Array.isArray(data.messages) ? data.messages : [];
       if (!items.length) setConversationState("هنوز پیامی در این گفتگو نیست. اولین پیام را بفرست!");
       else items.forEach(renderMessage);
@@ -160,8 +169,82 @@ document.addEventListener("DOMContentLoaded", () => {
     finally { loadingMessages = false; }
   }
 
+  function stopRealtime() {
+    if (realtimeReconnectTimer) { clearTimeout(realtimeReconnectTimer); realtimeReconnectTimer = null; }
+    if (realtimeController) { realtimeController.abort(); realtimeController = null; }
+    realtimeReconnectAttempt = 0;
+  }
+
+  function scheduleRealtimeReconnect() {
+    if (!active || !user || realtimeReconnectTimer) return;
+    const delay = Math.min(10000, 1000 * (2 ** Math.min(realtimeReconnectAttempt, 3)));
+    realtimeReconnectAttempt += 1;
+    realtimeReconnectTimer = setTimeout(() => {
+      realtimeReconnectTimer = null;
+      startRealtime();
+    }, delay);
+  }
+
+  async function startRealtime() {
+    stopRealtime();
+    if (!active || !user) return;
+    const token = localStorage.getItem("PERFASHINALToken");
+    if (!token) return;
+
+    const controller = new AbortController();
+    realtimeController = controller;
+    const conversation = active.username;
+    const url = `/api/messages/stream?conversation=${encodeURIComponent(conversation)}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}`, Accept: "text/event-stream" },
+        cache: "no-store",
+        signal: controller.signal
+      });
+      if (!response.ok || !response.body) throw new Error("اتصال realtime برقرار نشد.");
+
+      realtimeReconnectAttempt = 0;
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (!controller.signal.aborted) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const packets = buffer.split("\n\n");
+        buffer = packets.pop() || "";
+        for (const packet of packets) {
+          const dataLine = packet.split("\n").find(line => line.startsWith("data: "));
+          if (!dataLine) continue;
+          try {
+            const payload = JSON.parse(dataLine.slice(6));
+            if (packet.includes("event: message") && payload?.id) {
+              const isCurrentConversation = payload.conversation === conversation || payload.sender === conversation;
+              if (isCurrentConversation) {
+                if (messages.querySelector(".empty-conversation, .error-state")) messages.replaceChildren();
+                renderMessage(payload);
+                messages.scrollTop = messages.scrollHeight;
+                const contact = contacts.find(item => item.username === conversation);
+                if (contact) { contact.lastMessage = payload.text; contact.lastMessageTime = payload.createdAt; contact.unread = payload.sender === conversation ? 0 : contact.unread; }
+              }
+            }
+          } catch {}
+        }
+      }
+      if (!controller.signal.aborted) scheduleRealtimeReconnect();
+    } catch (error) {
+      if (!controller.signal.aborted) scheduleRealtimeReconnect();
+    } finally {
+      if (realtimeController === controller) realtimeController = null;
+    }
+  }
+
   function activate(contact) {
     if (!contact) return;
+    stopRealtime();
     active = contact;
     document.querySelectorAll(".chat-user").forEach(item => item.classList.toggle("active", item.dataset.user === contact.username));
     const avatar = document.getElementById("conversationAvatar"); if (avatar) avatar.textContent = friendAvatar(contact);
@@ -169,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const handle = document.getElementById("conversationHandle"); if (handle) handle.textContent = "@" + contact.username;
     input.disabled = !user;
     page.classList.add("conversation-open");
-    loadMessages();
+    loadMessages().then(startRealtime);
   }
 
   function openFriendProfile() {
@@ -186,7 +269,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const data = await api("/messages", { method: "POST", body: JSON.stringify({ conversation: active.username, text }) });
       if (messages.querySelector(".empty-conversation, .error-state")) messages.replaceChildren();
-      input.value = ""; renderMessage(data.message);
+      input.value = "";
+      if (data.message) renderMessage(data.message);
       messages.scrollTop = messages.scrollHeight;
       const contact = contacts.find(item => item.username === active.username);
       if (contact && data.message) { contact.lastMessage = text; contact.lastMessageTime = data.message.createdAt; }
@@ -235,13 +319,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  mobileBack?.addEventListener("click", () => page.classList.remove("conversation-open"));
+  mobileBack?.addEventListener("click", () => { stopRealtime(); page.classList.remove("conversation-open"); });
   profileButton?.addEventListener("click", openFriendProfile);
   conversationUser?.addEventListener("click", openFriendProfile);
-  // The HTML currently has no sticker button. If it is added later, it will work without breaking chat.
   stickerButton?.addEventListener("click", () => { if (!input.disabled) { input.value += " 🙂"; input.focus(); } });
-  window.addEventListener("beforeunload", () => clearInterval(pollTimer));
+  window.addEventListener("beforeunload", stopRealtime);
 
   loadContacts();
-  if (user) pollTimer = setInterval(() => { loadContacts(); if (active) loadMessages(); }, 5000);
 });
