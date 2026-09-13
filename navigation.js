@@ -3,12 +3,13 @@
 (function () {
   const BRAND_NAME = "TOREX PLAY";
   const path = location.pathname.toLowerCase();
-  const current = path.includes("leaderboard") ? "leaderboard" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
-  const pageTitles = { home: "خانه", news: "اخبار", chat: "چت", profile: "پروفایل", leaderboard: "امتیازات" };
+  const current = path.includes("leaderboard") ? "leaderboard" : path.includes("community") ? "community" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
+  const pageTitles = { home: "خانه", news: "اخبار", community: "کامیونیتی", chat: "چت", profile: "پروفایل", leaderboard: "امتیازات" };
   document.title = `${BRAND_NAME} | ${pageTitles[current] || ""}`;
   const items = [
     { key: "home", href: "index.html", label: "خانه" },
     { key: "news", href: "news.html", label: "اخبار" },
+    { key: "community", href: "community.html", label: "کامیونیتی" },
     { key: "chat", href: "chat-v2.html", label: "چت" },
     { key: "profile", href: "profile.html", label: "پروفایل" },
     { key: "leaderboard", href: "leaderboard.html", label: "امتیازات" }
