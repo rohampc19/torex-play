@@ -1,6 +1,18 @@
 {
-  "name": "perfashinal",
-  "version": "1.0.0",
+  "name": "torex-play",
+  "version": "2.0.0",
   "private": true,
-  "scripts": { "start": "node server.js", "dev": "node server.js" }
+  "description": "TOREX PLAY — gaming news, community, profiles and realtime chat platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node realtime-server.js",
+    "dev": "node realtime-server.js",
+    "start:api": "node server.js",
+    "test": "node --test",
+    "check": "node --check server.js && node --check realtime-server.js && node --check app.js && node --check chat-v2.js && node --check admin-panel.js",
+    "check:all": "npm run check && npm test"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
 }
