@@ -3,11 +3,11 @@
 const PERFASHINAL_API = "/api";
 
 async function PERFASHINALRequest(path, options = {}) {
-  const token = localStorage.getItem("PERFASHINALToken");
-  const headers = Object.assign({ "Content-Type": "application/json" }, token ? { Authorization: "Bearer " + token } : {}, options.headers || {});
+  const headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
   const response = await fetch(PERFASHINAL_API + path, {
+    ...(options || {}),
     headers,
-    ...(options || {})
+    credentials: "include"
   }).catch(() => { throw new Error("ارتباط با سرور برقرار نشد — سرور را با دستور node server.js اجرا کن و صفحه را از http://localhost:3000 باز کن."); });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error || "ارتباط با سرور برقرار نشد.");
@@ -115,7 +115,6 @@ function initAuth() {
       const result = await PERFASHINALRequest("/login", { method: "POST", body: JSON.stringify({ phone, password }) });
       localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
       localStorage.setItem("PERFASHINALLoggedIn", "true");
-      localStorage.setItem("PERFASHINALToken", result.token);
       location.href = "index.html";
     } catch (error) { if (box) { box.textContent = error.message; box.classList.add("show"); } }
   }, true);
@@ -152,7 +151,6 @@ function initAuth() {
           clearInterval(pollTimer);
           localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
           localStorage.setItem("PERFASHINALLoggedIn", "true");
-          if (result.token) localStorage.setItem("PERFASHINALToken", result.token);
           if (box) { box.textContent = "✅ ثبت‌نام شما تایید شد! در حال ورود..."; box.classList.add("show", "success"); }
           showToast?.("تایید شد! خوش آمدی 🎮");
           setTimeout(() => { location.href = "index.html"; }, 1200);

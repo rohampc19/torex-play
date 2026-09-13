@@ -223,7 +223,7 @@
     color: var(--muted);
 }
 
-/* Friendless empty state — friendly hand + integrated question mark */
+/* Friendless empty state */
 
 .empty-friends {
     display: flex;
@@ -234,61 +234,10 @@
     text-align: center;
 }
 
-.empty-friends__hand {
-    position: relative;
-    display: grid;
-    place-items: center;
-    width: 96px;
-    height: 88px;
-    margin-bottom: var(--space-2);
-}
-
-.empty-friends__palm {
-    position: absolute;
-    bottom: 0;
-    width: 64px;
-    height: 44px;
-    border-radius: 18px 18px 10px 10px;
-    background: linear-gradient(160deg, rgba(91, 140, 255, .35), rgba(124, 92, 255, .28));
-    border: 1px solid var(--border-active);
-    box-shadow: 0 10px 26px rgba(91, 140, 255, .22);
-}
-
-.empty-friends__finger {
-    position: absolute;
-    bottom: 34px;
-    width: 12px;
-    height: 30px;
-    border-radius: 8px;
-    background: linear-gradient(180deg, rgba(124, 92, 255, .4), rgba(91, 140, 255, .32));
-    border: 1px solid var(--border-active);
-}
-
-.empty-friends__finger:nth-child(2) { left: 22px; height: 36px; }
-.empty-friends__finger:nth-child(3) { left: 37px; height: 40px; }
-.empty-friends__finger:nth-child(4) { left: 52px; height: 34px; }
-
-.empty-friends__question {
-    position: absolute;
-    top: -14px;
-    right: 8px;
-    display: grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 2px solid var(--accent);
-    background: rgba(53, 214, 197, .12);
-    color: var(--accent);
-    font-weight: 900;
-    font-size: 1.15rem;
-    animation: questionFloat 3s ease-in-out infinite;
-}
-
-@keyframes questionFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-}
+.empty-friends__hand,
+.empty-friends__palm,
+.empty-friends__finger,
+.empty-friends__question { display: none; }
 
 .empty-friends strong {
     font-size: 1.05rem;
@@ -481,23 +430,6 @@
     flex: 1;
 }
 
-.input-action {
-    width: 42px;
-    height: 42px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .04);
-    color: var(--text);
-    font-size: 1.1rem;
-    transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
-}
-
-.input-action:hover {
-    transform: translateY(-2px);
-    border-color: var(--border-active);
-    box-shadow: 0 0 14px rgba(91, 140, 255, .16);
-}
-
 .send-button {
     height: 42px;
     padding: 0 18px;
@@ -631,8 +563,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .messenger-page,
-    .empty-friends__question {
+    .messenger-page {
         transition: none;
         animation: none;
     }

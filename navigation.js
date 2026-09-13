@@ -4,7 +4,7 @@
   const BRAND_NAME = "TOREX PLAY";
   const path = location.pathname.toLowerCase();
   const current = path.includes("leaderboard") ? "leaderboard" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
-  const pageTitles = { home: "خانه", news: "اخبار", chat: "چت", profile: "پروفایل", leaderboard: "جدول امتیازات" };
+  const pageTitles = { home: "خانه", news: "اخبار", chat: "چت", profile: "پروفایل", leaderboard: "امتیازات" };
   document.title = `${BRAND_NAME} | ${pageTitles[current] || ""}`;
   const items = [
     { key: "home", href: "index.html", label: "خانه" },
@@ -37,7 +37,7 @@
       userLink.insertAdjacentHTML("afterend", '<button type="button" class="global-logout">خروج</button>');
       document.querySelector(".global-logout").addEventListener("click", async () => {
         try { if (window.PERFASHINALRequest) await window.PERFASHINALRequest("/logout", { method: "POST" }); } catch (_) {}
-        ["PERFASHINALUser", "PERFASHINALToken", "PERFASHINALLoggedIn"].forEach(key => localStorage.removeItem(key)); location.href = "index.html";
+        ["PERFASHINALUser", "PERFASHINALLoggedIn"].forEach(key => localStorage.removeItem(key)); location.href = "index.html";
       });
     }
   }
