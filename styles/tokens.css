@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --font-family: "Vazirmatn", Tahoma, sans-serif;
+  --bg: #080b12;
+  --surface: #0f1521;
+  --card: #141c2b;
+  --surface-soft: #1a2435;
+  --primary: #5b8cff;
+  --primary-strong: #7c5cff;
+  --accent: #35d6c5;
+  --text: #f5f7fb;
+  --muted: #a8b4c8;
+  --subtle: #718098;
+  --border: rgba(187, 207, 241, 0.14);
+  --border-active: rgba(116, 157, 255, 0.38);
+  --shadow: 0 18px 52px rgba(0, 0, 0, 0.3);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --container: 1180px;
+  --ease: 180ms ease;
+  --z-header: 1000;
+}
