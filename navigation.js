@@ -1,7 +1,7 @@
 "use strict";
-/* TOREX PLAY — one clean text-only navigation across the entire site. */
+/* VEXORA CHAT — one clean text-only navigation across the entire site. */
 (function () {
-  const BRAND_NAME = "TOREX PLAY";
+  const BRAND_NAME = "VEXORA CHAT";
   const path = location.pathname.toLowerCase();
   const current = path.includes("leaderboard") ? "leaderboard" : path.includes("community") ? "community" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
   const pageTitles = { home: "خانه", news: "اخبار", community: "کامیونیتی", chat: "چت", profile: "پروفایل", leaderboard: "امتیازات" };
@@ -19,7 +19,7 @@
     const link = document.createElement("link"); link.rel = "stylesheet"; link.href = "site-polish.css"; link.dataset.torexPolish = "1"; document.head.appendChild(link);
   }
   function markup() {
-    return `<header class="global-header" data-global-header><div class="global-header__inner"><a class="global-brand" href="index.html" aria-label="TOREX PLAY"><span class="global-brand__text">${BRAND_NAME}</span></a><nav class="global-nav" aria-label="ناوبری اصلی">${items.map(item => `<a class="global-nav__link${item.key === current ? " is-active" : ""}" data-page="${item.key}" href="${item.href}">${item.label}</a>`).join("")}</nav><div class="global-actions"><a class="global-login" href="login.html">ورود</a><a class="global-user" href="profile.html" hidden></a></div></div></header>`;
+    return `<header class="global-header" data-global-header><div class="global-header__inner"><a class="global-brand" href="index.html" aria-label="VEXORA CHAT"><span class="global-brand__text">${BRAND_NAME}</span></a><nav class="global-nav" aria-label="ناوبری اصلی">${items.map(item => `<a class="global-nav__link${item.key === current ? " is-active" : ""}" data-page="${item.key}" href="${item.href}">${item.label}</a>`).join("")}</nav><div class="global-actions"><a class="global-login" href="login.html">ورود</a><a class="global-user" href="profile.html" hidden></a></div></div></header>`;
   }
   const LEGACY_SELECTORS = [".mobile-nav", ".mobile-bottom-nav", ".mobile-chat-nav", ".community-mobile-nav", ".bottom-nav", ".home-header", ".site-header", ".profile-header", ".slim-nav", ".main-header"];
   function mount() {

@@ -1,4 +1,4 @@
-/* TOREX PLAY — global visual polish layer. Additive: keeps page-specific CSS intact. */
+/* VEXORA CHAT — global visual polish layer. Additive: keeps page-specific CSS intact. */
 :root{--torex-blue:#4f8cff;--torex-cyan:#00d9ff;--torex-purple:#8b5cf6;--torex-glass:rgba(255,255,255,.055);--torex-line:rgba(255,255,255,.11)}
 ::selection{background:rgba(79,140,255,.45);color:#fff}
 body{background-color:#070a10!important}

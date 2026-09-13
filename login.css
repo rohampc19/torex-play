@@ -6,6 +6,7 @@
 /* =========================================
    RESET
 ========================================= */
+.auth-rules-box{margin:18px 0;padding:14px 16px;border:1px solid rgba(53,214,197,.28);border-radius:14px;background:rgba(53,214,197,.07);color:#dce8f7;text-align:right}.auth-rules-box strong{display:block;color:#35d6c5;margin-bottom:4px}.auth-rules-box p{margin:0 0 6px;color:#a8b4c8;font-size:.8rem;line-height:1.8}.auth-rules-box a{color:#9fc5ff;font-size:.8rem}
 
 * {
     margin: 0;

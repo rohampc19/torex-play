@@ -1,6 +1,6 @@
 "use strict";
 
-/* TOREX PLAY — Messenger V2
+/* VEXORA CHAT — Messenger V2
    Defensive client: optional controls never crash the whole page. */
 document.addEventListener("DOMContentLoaded", () => {
   const api = window.PERFASHINALRequest;

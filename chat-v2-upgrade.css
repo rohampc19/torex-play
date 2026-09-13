@@ -1,4 +1,4 @@
-/* TOREX PLAY Messenger UI upgrade — additive */
+/* VEXORA CHAT Messenger UI upgrade — additive */
 .messenger-page{border-color:rgba(90,170,255,.16)!important;box-shadow:0 30px 90px rgba(0,0,0,.42),0 0 70px rgba(45,110,255,.06)!important;background:rgba(7,12,24,.88)!important}
 .messenger-sidebar{background:linear-gradient(180deg,rgba(12,19,35,.96),rgba(7,12,24,.96))!important}.messenger-sidebar-top,.conversation-header,.message-input-area{background:rgba(8,14,28,.82)!important;backdrop-filter:blur(18px)}
 .search-title{font-size:1.05rem}.message-count{box-shadow:0 0 18px rgba(91,140,255,.3)}
