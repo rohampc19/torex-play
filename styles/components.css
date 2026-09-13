@@ -1,0 +1,162 @@
+.button,
+.main-button,
+.second-button,
+.news-read-btn,
+[type="submit"],
+.profile-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: #fff;
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.button:hover,
+.main-button:hover,
+.second-button:hover,
+.news-read-btn:hover,
+[type="submit"]:hover,
+.profile-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(91, 140, 255, 0.2);
+}
+
+.news-card,
+.feature-card,
+.game-card,
+.profile-edit-card,
+.favorite-games-edit {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(20, 28, 43, 0.78);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+}
+
+.news-card h3,
+.news-card p,
+.feature-card h3,
+.feature-card p {
+  overflow-wrap: anywhere;
+}
+
+.news-card {
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.news-card-image,
+.featured-image {
+  background: linear-gradient(135deg, #171f31, #101722);
+}
+
+.news-card-image:empty,
+.featured-image:empty {
+  min-height: 150px;
+}
+
+.news-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-card-content {
+  min-width: 0;
+}
+
+.card-category,
+.news-tag {
+  display: inline-flex;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #9fc5ff;
+  background: rgba(91, 140, 255, 0.12);
+  border: 1px solid rgba(91, 140, 255, 0.28);
+  font-size: 0.75rem;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.score-card {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(20, 28, 43, 0.95), rgba(15, 21, 33, 0.8));
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+
+.score-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-active);
+  box-shadow: 0 16px 36px rgba(91, 140, 255, 0.15);
+}
+
+.score-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.7rem;
+}
+
+.score-card small {
+  color: var(--muted);
+}
+
+.score-card__icon {
+  float: left;
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.news-publish-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.empty-state,
+.error-state {
+  padding: var(--space-5);
+  color: var(--muted);
+  text-align: center;
+}
+
+.PERFASHINAL-toast-container {
+  position: fixed;
+  z-index: 3000;
+  left: 18px;
+  bottom: 24px;
+  display: grid;
+  gap: 8px;
+  max-width: min(360px, calc(100% - 36px));
+}
+
+.PERFASHINAL-toast {
+  padding: 12px 15px;
+  color: #fff;
+  background: #1d3049;
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+
+.streak-flame {
+  display: inline-block;
+  filter: drop-shadow(0 0 8px rgba(255, 145, 42, 0.45));
+  animation: flameFloat 2.4s ease-in-out infinite;
+}
