@@ -16,7 +16,6 @@
     border-radius: var(--radius-xl);
     background: var(--surface);
     box-shadow: var(--shadow);
-    animation: sectionReveal 240ms ease both;
 }
 
 .messenger-sidebar,

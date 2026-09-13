@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = id => document.getElementById(id);
 
   let currentNews = null;
+  let newsLikePending = false;
+  const commentLikePending = new Set();
 
   function toast(message) {
     if (typeof showToast === "function") return showToast(message);
@@ -97,8 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
       likeButton.type = "button";
       likeButton.textContent = `♥ ${Number(Array.isArray(comment.likes) ? comment.likes.length : comment.likes || 0).toLocaleString("fa-IR")}`;
       likeButton.addEventListener("click", async () => {
-        if (!user) { toast("برای پسندیدن نظر ابتدا وارد شوید."); return; }
-        try { if (localUsers().length) { const key = `LOCAL_DEMO_COMMENT_LIKES_${currentNews.id}`; const liked = JSON.parse(localStorage.getItem(key) || "[]"); const index = liked.indexOf(comment.id); if (index >= 0) liked.splice(index, 1); else liked.push(comment.id); localStorage.setItem(key, JSON.stringify(liked)); likeButton.textContent = `♥ ${Number((comment.likes || []).length + (index < 0 ? 1 : -1)).toLocaleString("fa-IR")}`; return; } const result = await api(`/news/${encodeURIComponent(currentNews.id)}/comment/${encodeURIComponent(comment.id)}/like`, { method: "POST", body: "{}" }); likeButton.textContent = `♥ ${Number(result.likes).toLocaleString("fa-IR")}`; } catch (error) { toast(error.message); }
+        if (!user || commentLikePending.has(comment.id)) { if (!user) toast("برای پسندیدن نظر ابتدا وارد شوید."); return; }
+        commentLikePending.add(comment.id);
+        likeButton.disabled = true;
+        try { if (localUsers().length) { const key = `LOCAL_DEMO_COMMENT_LIKES_${currentNews.id}`; const liked = JSON.parse(localStorage.getItem(key) || "[]"); const currentlyLiked = liked.includes(comment.id); const desiredLiked = !currentlyLiked; if (currentlyLiked) liked.splice(liked.indexOf(comment.id), 1); else liked.push(comment.id); localStorage.setItem(key, JSON.stringify(liked)); likeButton.textContent = `♥ ${Number((comment.likes || []).length + (desiredLiked ? 1 : -1)).toLocaleString("fa-IR")}`; return; } const currentlyLiked = likeButton.classList.contains("liked"); const result = await api(`/news/${encodeURIComponent(currentNews.id)}/comment/${encodeURIComponent(comment.id)}/like`, { method: "POST", body: JSON.stringify({ liked: !currentlyLiked }) }); likeButton.classList.toggle("liked", result.liked); likeButton.textContent = `♥ ${Number(result.likes).toLocaleString("fa-IR")}`; } catch (error) { toast(error.message); } finally { commentLikePending.delete(comment.id); likeButton.disabled = false; }
       });
       const replyButton = document.createElement("button");
       replyButton.type = "button";
@@ -199,12 +203,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   $("likeButton")?.addEventListener("click", async () => {
-    if (!currentNews) return;
+    if (!currentNews || newsLikePending) return;
+    if (!user) { toast("برای پسندیدن خبر ابتدا وارد شوید."); return; }
+    newsLikePending = true;
+    const button = $("likeButton");
+    button.disabled = true;
     try {
-      if (localUsers().length) { const key = `LOCAL_DEMO_NEWS_LIKE_${currentNews.id}`; const liked = localStorage.getItem(key) === "true"; localStorage.setItem(key, String(!liked)); syncLikes(Number(currentNews.likes || 0) + (liked ? -1 : 1), !liked); return; }
-      const result = await api("/news/" + encodeURIComponent(currentNews.id) + "/like", { method: "POST", body: JSON.stringify({}) });
+      if (localUsers().length) { const key = `LOCAL_DEMO_NEWS_LIKE_${currentNews.id}`; const currentlyLiked = localStorage.getItem(key) === "true"; const desiredLiked = !currentlyLiked; localStorage.setItem(key, String(desiredLiked)); currentNews.likes = Math.max(0, Number(currentNews.likes || 0) + (desiredLiked ? 1 : -1)); currentNews.liked = desiredLiked; syncLikes(currentNews.likes, desiredLiked); return; }
+      const currentlyLiked = !!currentNews.liked;
+      const result = await api("/news/" + encodeURIComponent(currentNews.id) + "/like", { method: "POST", body: JSON.stringify({ liked: !currentlyLiked }) });
+      currentNews.likes = result.likes;
+      currentNews.liked = result.liked;
       syncLikes(result.likes, result.liked);
-    } catch (error) { toast(error.message); }
+    } catch (error) { toast(error.message); } finally { newsLikePending = false; button.disabled = false; }
   });
 
   $("followButton")?.addEventListener("click", async () => {

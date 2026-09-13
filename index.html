@@ -668,5 +668,23 @@
   setText(".games-section .section-heading p", "بازی‌های مورد علاقه‌ات را اینجا پیدا کن.");
   setText(".join-content h2", "وارد دنیای گیم شو");
   setText(".join-content p", "اخبار روز را دنبال کن و با دوستانت از بازی‌ها و تجربه‌های تازه بگو.");
+
+  /* کل کارت‌های اخبار، چت و پروفایل همان مقصد لینک داخلی خودشان را باز می‌کنند. */
+  document.querySelectorAll(".feature-card").forEach(card => {
+    const link = card.querySelector("a[href]");
+    if (!link) return;
+
+    card.style.cursor = "pointer";
+    card.setAttribute("tabindex", "0");
+    card.addEventListener("click", event => {
+      if (event.target.closest("a")) return;
+      window.location.href = link.href;
+    });
+    card.addEventListener("keydown", event => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      window.location.href = link.href;
+    });
+  });
 })();
 </script>

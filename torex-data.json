@@ -59,7 +59,7 @@
       "comments": [],
       "createdAt": "2026-09-06T18:15:22.056Z",
       "publishedAt": "2026-09-06T18:15:22.057Z",
-      "views": 2401,
+      "views": 2403,
       "status": "published"
     },
     {
@@ -116,41 +116,5 @@
       "createdAt": "2026-09-06T18:18:55.947Z"
     }
   ],
-  "sessions": [
-    {
-      "token": "405e9d86a50cb9dccf76d225cf636aa0565a70c73d2bf50e",
-      "userId": "u-admin",
-      "createdAt": "2026-09-06T18:16:01.678Z"
-    },
-    {
-      "token": "2e09b1f82c9543ce90da9eb90a133d031d66d72898b26afd",
-      "userId": "u-admin",
-      "createdAt": "2026-09-06T18:16:56.591Z"
-    },
-    {
-      "token": "100207c51b81f49e5e6bd884c80b5642c98ca66678c1d022",
-      "userId": "u-admin",
-      "createdAt": "2026-09-06T18:17:40.580Z"
-    },
-    {
-      "token": "81df66b8a0c2cc621be716bf3a36bcfef4b338d193589a33",
-      "userId": "u-admin",
-      "createdAt": "2026-09-06T18:18:55.931Z"
-    },
-    {
-      "token": "6aa81bfb230838210050dad1438db012c3ee070aae367bcf",
-      "userId": "u-admin",
-      "createdAt": "2026-09-07T10:50:21.653Z"
-    },
-    {
-      "token": "5956e1451c68e7a66ded085373120ae09887ca78b4a55a05",
-      "userId": "u-admin",
-      "createdAt": "2026-09-07T10:50:59.999Z"
-    },
-    {
-      "token": "3fcaa3c76ebb641464708c86404e1a1a716838b854cbb436",
-      "userId": "u-admin",
-      "createdAt": "2026-09-07T10:57:32.485Z"
-    }
-  ]
+  "sessions": []
 }

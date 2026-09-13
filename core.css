@@ -12,5 +12,12 @@ body > header.site-header,body > header.home-header,body > header.slim-nav,body 
 
 .global-brand--empty{width:48px;min-height:1px;pointer-events:none}.global-logout{border:1px solid var(--border);border-radius:var(--radius-sm);background:transparent;color:var(--muted);padding:6px 9px;cursor:pointer}.global-logout:hover{color:var(--text);border-color:var(--border-active)}
 
+/* لینک‌های ورود به چت در سراسر سایت همان transition دکمه مشاهده اخبار را دارند. */
+.main-button[href="chat-v2.html"]:hover,
+.second-button[href="chat-v2.html"]:hover {
+  transform: translateY(-4px);
+  transition: .3s ease;
+}
+
 /* Final navigation/mobile guardrails */
 .global-actions{justify-self:end;display:flex;align-items:center;gap:8px;min-width:0}.global-login,.global-user{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 11px;border:1px solid var(--border);border-radius:var(--radius-md);color:var(--muted);white-space:nowrap}.global-login:hover,.global-user:hover{color:var(--text);border-color:var(--border-active)}.global-brand__text{overflow:hidden;text-overflow:ellipsis}.global-nav__link{white-space:nowrap}@media(max-width:760px){.global-header__inner{grid-template-columns:auto minmax(0,1fr) auto;gap:6px}.global-brand{max-width:116px}.global-brand__text{font-size:.72rem}.global-brand__mark{flex:0 0 24px}.global-nav{justify-content:flex-start;min-width:0;overflow-x:auto}.global-nav__link{min-width:max-content;padding-inline:7px;font-size:.68rem}.global-actions{min-width:max-content}.global-login,.global-user{padding-inline:8px;font-size:.7rem}.global-logout{padding:5px 7px;font-size:.68rem}}@media(max-width:430px){.global-brand{max-width:28px}.global-brand__text{display:none}.global-nav__link{font-size:.64rem;padding-inline:6px}.global-login,.global-user{padding-inline:6px}.global-logout{display:none}}

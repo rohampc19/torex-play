@@ -374,18 +374,17 @@ PERFASHINAL
 
 
 let likes = 120;
-
+let liked = false;
+let likePending = false;
 
 
 function likeNews(){
-
-
-likes++;
-
-
-document.getElementById("likeCount").innerHTML = likes;
-
-
+    if (likePending) return;
+    likePending = true;
+    liked = !liked;
+    likes = Math.max(0, likes + (liked ? 1 : -1));
+    document.getElementById("likeCount").textContent = likes;
+    likePending = false;
 }
 
 

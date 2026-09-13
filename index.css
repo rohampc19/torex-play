@@ -607,6 +607,14 @@ input {
         rgba(139,92,246,.15);
 }
 
+/* دکمه ورود به چت همان افکت هاور دکمه مشاهده اخبار را دارد؛ خود اخبار دست‌نخورده می‌ماند. */
+.main-button[href="chat-v2.html"]:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139,92,246,.55);
+    background: rgba(139,92,246,.08);
+    box-shadow: 0 0 25px rgba(139,92,246,.15);
+}
+
 
 /* =====================================================
    HERO STATS
@@ -1111,6 +1119,27 @@ input {
     opacity: .16;
 }
 
+/* کارت اخبارِ بخش امکانات دقیقاً همان انیمیشن کارت چت را حفظ می‌کند. */
+.feature-card:nth-child(1) {
+    transition: .35s ease;
+}
+
+.feature-card:nth-child(1):hover {
+    transform: translateY(-8px);
+    border-color: rgba(79,140,255,.35);
+    box-shadow: 0 20px 50px rgba(79,140,255,.09);
+}
+
+.feature-card:nth-child(1)::before,
+.feature-card:nth-child(1):hover::before {
+    transition: .35s ease;
+}
+
+.feature-card:nth-child(1):hover::before {
+    background: var(--purple);
+    opacity: .16;
+}
+
 .feature-icon {
 
     width: 48px;
@@ -1184,6 +1213,16 @@ input {
     text-shadow:
         0 0 12px
         rgba(139,92,246,.5);
+}
+
+/* لینک مشاهده اخبار هم همان transition لینک ورود به چت را دارد. */
+.feature-card:nth-child(1) a {
+    transition: .3s ease;
+}
+
+.feature-card:nth-child(1) a:hover {
+    color: var(--purple-light);
+    text-shadow: 0 0 12px rgba(139,92,246,.5);
 }
 
 
