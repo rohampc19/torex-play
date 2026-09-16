@@ -152,39 +152,14 @@
 
 
                     <small>
-                        نام کاربری باید حداقل ۳ کاراکتر باشد.
+                        نام کاربری باید ۳ تا ۲۴ کاراکتر انگلیسی، عدد یا _ باشد و فاصله نداشته باشد.
                     </small>
 
                 </div>
 
 
 
-                <!-- PHONE -->
-
-                <div class="input-group">
-
-                    <label for="phone">
-                        شماره موبایل
-                    </label>
-
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        placeholder="09123456789"
-                        inputmode="numeric"
-                        autocomplete="tel"
-                        maxlength="11"
-                        required
-                    >
-
-
-                    <small>
-                        شماره باید با 09 شروع شود.
-                    </small>
-
-                </div>
+                
 
 
 
@@ -329,15 +304,15 @@
 
     <script src="./app.js"></script>
     <!-- منطق ثبت‌نام در app.js اجرا می‌شود تا درخواست به سرور محلی ارسال شود. -->
-    <!--
+    <!-- Legacy validation code disabled; authentication is handled by app.js.
         const registerForm =
             document.getElementById("registerForm");
 
         const usernameInput =
             document.getElementById("username");
 
-        const phoneInput =
-            document.getElementById("phone");
+        const usernameInput =
+            document.getElementById("username");
 
         const passwordInput =
             document.getElementById("password");
@@ -377,16 +352,11 @@
 
 
         // ============================
-        // PHONE
+        // USERNAME VALIDATION
         // ============================
 
-        function isValidPhone(phone) {
-
-            const phoneRegex =
-                /^09[0-9]{9}$/;
-
-            return phoneRegex.test(phone);
-
+        function isValidUsername(username) {
+            return /^[a-zA-Z0-9_]{3,24}$/.test(username);
         }
 
 
@@ -407,9 +377,6 @@
                 const username =
                     usernameInput.value.trim();
 
-                const phone =
-                    phoneInput.value.trim();
-
                 const password =
                     passwordInput.value;
 
@@ -420,10 +387,10 @@
 
                 // USERNAME
 
-                if (username.length < 3) {
+                if (!isValidUsername(username)) {
 
                     showError(
-                        "نام کاربری باید حداقل ۳ کاراکتر باشد."
+                        "نام کاربری باید ۳ تا ۲۴ کاراکتر انگلیسی، عدد یا _ باشد و فاصله نداشته باشد."
                     );
 
                     usernameInput.focus();
@@ -434,28 +401,20 @@
 
 
 
-                // PHONE
-
-                if (!isValidPhone(phone)) {
-
-                    showError(
-                        "شماره موبایل معتبر نیست. مثال: 09123456789"
-                    );
-
-                    phoneInput.focus();
-
+                if (!isValidUsername(username)) {
+                    showError("نام کاربری باید ۳ تا ۲۴ کاراکتر انگلیسی، عدد یا _ باشد و فاصله نداشته باشد.");
+                    usernameInput.focus();
                     return;
-
                 }
 
 
 
                 // PASSWORD
 
-                if (password.length < 8) {
+                if (password.length < 8 || /\s/.test(password) || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
 
                     showError(
-                        "رمز عبور باید حداقل ۸ کاراکتر باشد."
+                        "رمز عبور باید حداقل 8 کاراکتر، یک حرف بزرگ انگلیسی، یک حرف کوچک انگلیسی و یک عدد داشته باشد و نباید فاصله داشته باشد."
                     );
 
                     passwordInput.focus();
@@ -471,7 +430,7 @@
                 if (password !== confirmPassword) {
 
                     showError(
-                        "رمز عبور و تکرار آن یکسان نیست."
+                        "رمز عبور و تکرار رمز عبور یکسان نیستند."
                     );
 
                     confirmPasswordInput.focus();
@@ -514,8 +473,6 @@
 
                         username: username,
 
-                        phone: phone,
-
                         status: "pending"
 
                     })
@@ -549,18 +506,7 @@
         // ONLY NUMBERS
         // ============================
 
-        phoneInput.addEventListener(
-            "input",
-            function() {
-
-                this.value =
-                    this.value.replace(
-                        /[^0-9]/g,
-                        ""
-                    );
-
-            }
-        );
+        usernameInput.addEventListener("input", hideError);
 
 
 
@@ -573,10 +519,7 @@
             hideError
         );
 
-        phoneInput.addEventListener(
-            "input",
-            hideError
-        );
+        usernameInput.addEventListener("input", hideError);
 
         passwordInput.addEventListener(
             "input",

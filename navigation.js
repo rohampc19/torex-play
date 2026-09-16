@@ -22,6 +22,23 @@
     return `<header class="global-header" data-global-header><div class="global-header__inner"><a class="global-brand" href="index.html" aria-label="VEXORA CHAT"><span class="global-brand__text">${BRAND_NAME}</span></a><nav class="global-nav" aria-label="ناوبری اصلی">${items.map(item => `<a class="global-nav__link${item.key === current ? " is-active" : ""}" data-page="${item.key}" href="${item.href}">${item.label}</a>`).join("")}</nav><div class="global-actions"><a class="global-login" href="login.html">ورود</a><a class="global-user" href="profile.html" hidden></a></div></div></header>`;
   }
   const LEGACY_SELECTORS = [".mobile-nav", ".mobile-bottom-nav", ".mobile-chat-nav", ".community-mobile-nav", ".bottom-nav", ".home-header", ".site-header", ".profile-header", ".slim-nav", ".main-header"];
+  function bindFeatureCards() {
+    document.querySelectorAll(".feature-card").forEach(card => {
+      const destination = card.querySelector("a[href]");
+      if (!destination || card.dataset.cardNavigationBound === "true") return;
+      card.dataset.cardNavigationBound = "true";
+      card.tabIndex = 0;
+      card.addEventListener("click", event => {
+        if (event.target.closest("a,button,input,textarea,select")) return;
+        location.href = destination.href;
+      });
+      card.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        location.href = destination.href;
+      });
+    });
+  }
   function mount() {
     loadPolish();
     document.querySelectorAll("[data-global-header], .global-header").forEach(node => node.remove());
@@ -29,6 +46,7 @@
     if (!document.body) return;
     document.body.insertAdjacentHTML("afterbegin", markup());
     document.body.classList.add("has-global-navigation");
+    bindFeatureCards();
     const user = typeof window.getUser === "function" ? window.getUser() : null;
     const login = document.querySelector(".global-login"); const userLink = document.querySelector(".global-user");
     if (user && login && userLink) {

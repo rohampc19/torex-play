@@ -141,30 +141,27 @@
 
 
                 <!-- =================
-                     PHONE
+                     USERNAME
                 ================== -->
 
                 <div class="input-group">
 
-                    <label for="phone">
-                        شماره موبایل
+                    <label for="username">
+                        نام کاربری
                     </label>
 
-
                     <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        placeholder="09123456789"
-                        inputmode="numeric"
-                        autocomplete="tel"
-                        maxlength="11"
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="مثلاً Roham"
+                        maxlength="24"
+                        autocomplete="username"
                         required
                     >
 
-
                     <small>
-                        شماره باید با 09 شروع شود.
+                        نام کاربری باید ۳ تا ۲۴ کاراکتر انگلیسی، عدد یا _ باشد.
                     </small>
 
                 </div>
@@ -336,8 +333,8 @@
         const loginForm =
             document.getElementById("loginForm");
 
-        const phoneInput =
-            document.getElementById("phone");
+        const usernameInput =
+            document.getElementById("username");
 
         const passwordInput =
             document.getElementById("password");
@@ -376,25 +373,11 @@
 
 
         // ============================
-        // PHONE VALIDATION
+        // USERNAME VALIDATION
         // ============================
 
-        function isValidIranianPhone(phone) {
-
-            /*
-                شماره معتبر ایران:
-
-                09123456789
-
-                11 رقم
-                شروع با 09
-            */
-
-            const phoneRegex =
-                /^09[0-9]{9}$/;
-
-            return phoneRegex.test(phone);
-
+        function isValidUsername(username) {
+            return /^[a-zA-Z0-9_]{3,24}$/.test(username);
         }
 
 
@@ -417,8 +400,8 @@
                 // GET VALUES
                 // ======================
 
-                const phone =
-                    phoneInput.value.trim();
+                const username =
+                    usernameInput.value.trim();
 
                 const password =
                     passwordInput.value;
@@ -426,37 +409,13 @@
 
 
                 // ======================
-                // PHONE EMPTY
+                // USERNAME VALIDATION
                 // ======================
 
-                if (phone === "") {
-
-                    showError(
-                        "لطفاً شماره موبایل خود را وارد کنید."
-                    );
-
-                    phoneInput.focus();
-
+                if (!isValidUsername(username)) {
+                    showError("نام کاربری باید ۳ تا ۲۴ کاراکتر انگلیسی، عدد یا _ باشد و فاصله نداشته باشد.");
+                    usernameInput.focus();
                     return;
-
-                }
-
-
-
-                // ======================
-                // PHONE VALIDATION
-                // ======================
-
-                if (!isValidIranianPhone(phone)) {
-
-                    showError(
-                        "شماره موبایل معتبر نیست. مثال: 09123456789"
-                    );
-
-                    phoneInput.focus();
-
-                    return;
-
                 }
 
 
@@ -501,7 +460,7 @@
                 const submit = loginForm.querySelector("button[type=submit]");
                 submit.disabled = true;
                 try {
-                    const result = await window.PERFASHINALRequest("/login", { method: "POST", body: JSON.stringify({ phone, password }) });
+                    const result = await window.PERFASHINALRequest("/login", { method: "POST", body: JSON.stringify({ username, password }) });
                     localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
                     localStorage.setItem("PERFASHINALLoggedIn", "true");
                 } catch (error) {
@@ -539,18 +498,7 @@
             alert("برای بازیابی رمز عبور، لطفاً به آیدی روبیکا پشتیبانی پیام دهید. آیدی پشتیبانی بعداً اعلام می‌شود.");
         });
 
-        phoneInput.addEventListener(
-            "input",
-            function() {
-
-                this.value =
-                    this.value.replace(
-                        /[^0-9]/g,
-                        ""
-                    );
-
-            }
-        );
+        usernameInput.addEventListener("input", hideError);
 
 
 
@@ -558,10 +506,7 @@
         // HIDE ERROR WHEN USER TYPES
         // ============================
 
-        phoneInput.addEventListener(
-            "input",
-            hideError
-        );
+        usernameInput.addEventListener("input", hideError);
 
 
         passwordInput.addEventListener(
@@ -575,5 +520,4 @@
 </body>
 
 </html>
-نحثیرتئهخحصثتعهخ24لتاخهلتهبتصباتخلت
 

@@ -108,11 +108,13 @@ function initAuth() {
   const login = document.getElementById("loginForm");
   if (login) login.addEventListener("submit", async event => {
     event.preventDefault(); event.stopImmediatePropagation();
-    const phone = document.getElementById("phone")?.value.trim();
+    const username = document.getElementById("username")?.value.trim() || "";
     const password = document.getElementById("password")?.value || "";
     const box = document.getElementById("loginError");
     try {
-      const result = await PERFASHINALRequest("/login", { method: "POST", body: JSON.stringify({ phone, password }) });
+      if (!/^[a-zA-Z0-9_]{3,24}$/.test(username)) throw new Error("نام کاربری باید ۳ تا ۲۴ کاراکتر انگلیسی، عدد یا _ باشد و فاصله نداشته باشد.");
+      if (!password) throw new Error("رمز عبور نمی‌تواند خالی باشد.");
+      const result = await PERFASHINALRequest("/login", { method: "POST", body: JSON.stringify({ username, password }) });
       localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
       localStorage.setItem("PERFASHINALLoggedIn", "true");
       location.href = "index.html";
@@ -122,7 +124,6 @@ function initAuth() {
   if (register) register.addEventListener("submit", async event => {
     event.preventDefault(); event.stopImmediatePropagation();
     const username = document.getElementById("username")?.value.trim() || "";
-    const phone = document.getElementById("phone")?.value.trim() || "";
     const password = document.getElementById("password")?.value || "";
     const repeat = document.getElementById("confirmPassword")?.value || "";
     const accepted = document.getElementById("terms")?.checked;
@@ -132,12 +133,15 @@ function initAuth() {
     try {
       if (location.protocol === "file:") throw new Error("برای ثبت‌نام باید سرور اجرا باشد و صفحه را از http://localhost:3000/register.html باز کنی (نه با دابل‌کلیک روی فایل).");
       if (!/^[a-zA-Z0-9_]{3,24}$/.test(username)) throw new Error("نام کاربری باید ۳ تا ۲۴ کاراکتر انگلیسی، عدد یا _ باشد.");
-      if (!/^09\d{9}$/.test(phone)) throw new Error("شماره موبایل معتبر نیست. مثال: 09123456789");
-      if (password.length < 8) throw new Error("رمز عبور باید حداقل ۸ کاراکتر باشد.");
-      if (password !== repeat) throw new Error("رمز عبور و تکرار آن یکسان نیست.");
+      if (password.length < 8) throw new Error("رمز عبور باید حداقل 8 کاراکتر باشد.");
+      if (/\s/.test(password)) throw new Error("رمز عبور نباید شامل فاصله باشد.");
+      if (!/[A-Z]/.test(password)) throw new Error("رمز عبور باید حداقل یک حرف بزرگ انگلیسی داشته باشد.");
+      if (!/[a-z]/.test(password)) throw new Error("رمز عبور باید حداقل یک حرف کوچک انگلیسی داشته باشد.");
+      if (!/[0-9]/.test(password)) throw new Error("رمز عبور باید حداقل یک عدد داشته باشد.");
+      if (password !== repeat) throw new Error("رمز عبور و تکرار رمز عبور یکسان نیستند.");
       if (!accepted) throw new Error("پذیرفتن قوانین سایت الزامی است.");
       if (submit) submit.disabled = true;
-      await PERFASHINALRequest("/register", { method: "POST", body: JSON.stringify({ username, phone, password }) });
+      await PERFASHINALRequest("/register", { method: "POST", body: JSON.stringify({ username, password, confirmPassword: repeat }) });
       if (box) { box.textContent = "⏳ ثبت‌نام انجام شد. منتظر تایید ادمین بمان..."; box.classList.add("show", "success"); }
       showToast?.("درخواست شما برای ادمین ارسال شد؛ منتظر تایید بمان.");
       register.reset();
