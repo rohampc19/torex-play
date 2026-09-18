@@ -3,7 +3,7 @@
 (function () {
   const BRAND_NAME = "VEXORA CHAT";
   const path = location.pathname.toLowerCase();
-  const current = path.includes("leaderboard") ? "leaderboard" : path.includes("community") ? "community" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
+  const current = path.includes("leaderboard") ? "leaderboard" : path.includes("community") || path.includes("groups") || path.includes("group.html") ? "community" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
   const pageTitles = { home: "خانه", news: "اخبار", community: "کامیونیتی", chat: "چت", profile: "پروفایل", leaderboard: "امتیازات" };
   document.title = `${BRAND_NAME} | ${pageTitles[current] || ""}`;
   const items = [

@@ -28,6 +28,30 @@
       ]
     }
   ],
+  "groups": [
+    {
+      "id": "group-vexora-test",
+      "name": "VEXORA TEST GROUP",
+      "description": "گروه آزمایشی برای تست سیستم گروه‌های VEXORA CHAT",
+      "avatar": "",
+      "type": "public",
+      "leaderId": "u-admin",
+      "maxMembers": 50,
+      "createdAt": "2026-09-06T18:15:22.000Z",
+      "updatedAt": "2026-09-06T18:15:22.000Z"
+    }
+  ],
+  "groupMembers": [
+    {
+      "id": "gm-vexora-test-admin",
+      "groupId": "group-vexora-test",
+      "userId": "u-admin",
+      "role": "leader",
+      "joinedAt": "2026-09-06T18:15:22.000Z"
+    }
+  ],
+  "groupMessages": [],
+  "groupJoinRequests": [],
   "messages": [
     {
       "id": "m-1788718735961",
