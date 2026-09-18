@@ -26,9 +26,8 @@
       if (item.isOfficial) { const official = document.createElement("b"); official.textContent = "✓ رسمی"; top.append(official); }
       const title = document.createElement("h3"); title.textContent = safeText(item.title);
       const excerpt = document.createElement("p"); excerpt.textContent = safeText(item.excerpt || safeText(item.text).slice(0, 140));
-      const link = document.createElement("a"); link.className = "news-read-btn"; link.href = articleHref(item); link.textContent = "ادامه اخبار ←";
+      const link = document.createElement("a"); link.className = "news-read-btn"; link.href = articleHref(item); link.textContent = "ادامه اخبار ←"; link.addEventListener("click", event => event.stopPropagation());
       const open = () => { location.href = articleHref(item); };
-      link.addEventListener("click", event => event.stopPropagation());
       card.addEventListener("click", open);
       card.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(); } });
       card.tabIndex = 0;
@@ -54,7 +53,8 @@
     author.addEventListener("click", event => { event.stopPropagation(); location.href = `profile.html?user=${encodeURIComponent(item.author || "admin")}`; });
     const footer = document.createElement("div"); footer.className = "card-footer";
     [formatDate(item.publishedAt || item.createdAt), item.game || labels[item.category] || "خبر", `${Number(item.views || 0).toLocaleString("fa-IR")} بازدید`].forEach(value => { const span = document.createElement("span"); span.textContent = value; footer.append(span); });
-    content.append(top, title, excerpt, author, footer); article.append(imageBox, content);
+    const link = document.createElement("a"); link.className = "news-read-btn"; link.href = articleHref(item); link.textContent = "ادامه اخبار ←"; link.addEventListener("click", event => event.stopPropagation());
+    content.append(top, title, excerpt, author, footer, link); article.append(imageBox, content);
     const open = () => { location.href = articleHref(item); };
     article.addEventListener("click", open); article.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(); } });
     return article;

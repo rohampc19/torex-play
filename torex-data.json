@@ -26,6 +26,17 @@
       "friends": [
         "admin"
       ]
+    },
+    {
+      "id": "u-73eb5d64-696c-47d9-9c35-4c7ded3c81d6",
+      "username": "kiarash_123",
+      "name": "kiarash_123",
+      "password": "pbkdf2$120000$0e99033732794e8972bc59a6a0c6fbb8$d7f73b4597480d4b26ead14fd8d71f5817d839fab4db4bb4f5d426feb1ab13b2",
+      "score": 0,
+      "favoriteGame": "—",
+      "avatar": "K",
+      "status": "pending",
+      "friends": []
     }
   ],
   "groups": [

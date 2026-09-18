@@ -1,6 +1,7 @@
 "use strict";
 
 const PERFASHINAL_API = "/api";
+(function loadButtonSystem() { if (document.querySelector('link[data-button-system]')) return; const link = document.createElement("link"); link.rel = "stylesheet"; link.href = "/button-system.css"; link.dataset.buttonSystem = "1"; document.head.appendChild(link); }());
 
 async function PERFASHINALRequest(path, options = {}) {
   const headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});

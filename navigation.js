@@ -15,8 +15,8 @@
     { key: "leaderboard", href: "leaderboard.html", label: "امتیازات" }
   ];
   function loadPolish() {
-    if (document.querySelector('link[data-torex-polish]')) return;
-    const link = document.createElement("link"); link.rel = "stylesheet"; link.href = "mobile.css"; link.dataset.torexPolish = "1"; document.head.appendChild(link);
+    if (!document.querySelector('link[data-torex-polish]')) { const link = document.createElement("link"); link.rel = "stylesheet"; link.href = "mobile.css"; link.dataset.torexPolish = "1"; document.head.appendChild(link); }
+    if (!document.querySelector('link[data-button-system]')) { const link = document.createElement("link"); link.rel = "stylesheet"; link.href = "button-system.css"; link.dataset.buttonSystem = "1"; document.head.appendChild(link); }
   }
   function markup() {
     return `<header class="global-header" data-global-header><div class="global-header__inner"><a class="global-brand" href="index.html" aria-label="VEXORA CHAT"><span class="global-brand__text">${BRAND_NAME}</span></a><nav class="global-nav" aria-label="ناوبری اصلی">${items.map(item => `<a class="global-nav__link${item.key === current ? " is-active" : ""}" data-page="${item.key}" href="${item.href}">${item.label}</a>`).join("")}</nav><div class="global-actions"><a class="global-login" href="login.html">ورود</a><a class="global-user" href="profile.html" hidden></a></div></div></header>`;
