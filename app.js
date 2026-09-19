@@ -118,7 +118,8 @@ function initAuth() {
       const result = await PERFASHINALRequest("/login", { method: "POST", body: JSON.stringify({ username, password }) });
       localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
       localStorage.setItem("PERFASHINALLoggedIn", "true");
-      location.href = "index.html";
+      sessionStorage.removeItem("torexWelcomeShown");
+      location.href = "index.html?welcome=1";
     } catch (error) { if (box) { box.textContent = error.message; box.classList.add("show"); } }
   }, true);
   const register = document.getElementById("registerForm");
@@ -156,9 +157,10 @@ function initAuth() {
           clearInterval(pollTimer);
           localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
           localStorage.setItem("PERFASHINALLoggedIn", "true");
+          sessionStorage.removeItem("torexWelcomeShown");
           if (box) { box.textContent = "✅ ثبت‌نام شما تایید شد! در حال ورود..."; box.classList.add("show", "success"); }
           showToast?.("تایید شد! خوش آمدی 🎮");
-          setTimeout(() => { location.href = "index.html"; }, 1200);
+          setTimeout(() => { location.href = "index.html?welcome=1"; }, 1200);
         } catch {}
       }, 2000);
     } catch (error) { fail(error.message); }
