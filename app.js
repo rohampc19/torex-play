@@ -1,10 +1,13 @@
 "use strict";
 
 const PERFASHINAL_API = "/api";
+let PERFASHINAL_CSRF = "";
+async function getCsrfToken() { if (PERFASHINAL_CSRF) return PERFASHINAL_CSRF; const response = await fetch(PERFASHINAL_API + "/csrf", { credentials: "include", cache: "no-store" }); if (!response.ok) throw new Error("خطا در آماده‌سازی امنیتی درخواست."); const data = await response.json(); const match = document.cookie.match(/(?:^|; )torex_csrf=([^;]+)/); PERFASHINAL_CSRF = match ? decodeURIComponent(match[1]) : ""; if (!PERFASHINAL_CSRF) throw new Error("توکن امنیتی دریافت نشد."); return PERFASHINAL_CSRF; }
 (function loadButtonSystem() { if (document.querySelector('link[data-button-system]')) return; const link = document.createElement("link"); link.rel = "stylesheet"; link.href = "/button-system.css"; link.dataset.buttonSystem = "1"; document.head.appendChild(link); }());
 
 async function PERFASHINALRequest(path, options = {}) {
   const headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
+  if (["POST","PUT","PATCH","DELETE"].includes(String(options.method || "GET").toUpperCase()) && !path.startsWith("/login") && !path.startsWith("/register")) headers["X-CSRF-Token"] = await getCsrfToken();
   const response = await fetch(PERFASHINAL_API + path, {
     ...(options || {}),
     headers,
