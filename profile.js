@@ -1,5 +1,5 @@
 /* =====================================================
-   PERFASHINAL — PROFILE SYSTEM
+   VEXORA Chat — PROFILE SYSTEM
    Profile + Avatar + Favorite Games + Logout
 ===================================================== */
 
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         !logoutButton
     ) {
         console.error(
-            "PERFASHINAL: بعضی از عناصر profile.html پیدا نشدند."
+            "VEXORA Chat: بعضی از عناصر profile.html پیدا نشدند."
         );
 
         return;
@@ -100,7 +100,32 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     let profile = loadProfile();
+    const publicUsername = new URLSearchParams(location.search).get("user");
+    const isPublicProfile = !!publicUsername;
 
+    async function loadPublicProfile() {
+        if (!isPublicProfile || !window.PERFASHINALRequest) return;
+        try {
+            const result = await window.PERFASHINALRequest("/users/" + encodeURIComponent(publicUsername));
+            profile = { ...profile, ...(result.profile || {}) };
+            profileName.value = profile.name || profile.username || "کاربر";
+            profileUsername.value = profile.username || publicUsername;
+            profileBio.value = profile.bio || "عضو جامعه گیمرهای VEXORA Chat";
+            [profileName, profileUsername, profileBio, saveProfile, chooseProfileButton, profileImageInput].forEach(element => { if (element) element.disabled = true; });
+            const identity = document.getElementById("publicIdentity");
+            const bio = document.getElementById("publicBio");
+            const score = document.getElementById("publicScore");
+            if (identity) identity.textContent = "@" + (profile.username || publicUsername);
+            if (bio) bio.textContent = profile.bio || "عضو جامعه گیمرهای VEXORA Chat";
+            if (score) score.textContent = Number(profile.score || 0).toLocaleString("fa-IR") + " امتیاز";
+            const followers = document.getElementById("followersCount");
+            const following = document.getElementById("followingCount");
+            if (followers) followers.textContent = Number(profile.followers || 0).toLocaleString("fa-IR");
+            if (following) following.textContent = Number(profile.following || 0).toLocaleString("fa-IR");
+            const title = document.querySelector(".profile-page-title h1");
+            if (title) title.textContent = "پروفایل کاربر";
+        } catch (_) { /* صفحهٔ عمومی می‌تواند با دادهٔ محلی نیز رندر شود. */ }
+    }
 
     function loadProfile() {
 
@@ -190,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     renderProfile();
-
+    loadPublicProfile();
 
     /* =====================================================
        PROFILE IMAGE BUTTON

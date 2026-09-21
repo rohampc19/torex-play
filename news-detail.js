@@ -77,9 +77,15 @@ document.addEventListener("DOMContentLoaded", () => {
       row.className = "insta-comment" + (comment.replyTo ? " insta-comment--reply" : "");
       if (comment.replyTo) row.style.marginInlineStart = "36px";
 
+      const profileLink = document.createElement("button");
+      profileLink.type = "button";
+      profileLink.className = "comment-profile-link";
+      profileLink.setAttribute("aria-label", "مشاهده پروفایل کاربر");
       const avatar = document.createElement("span");
       avatar.className = "PERFASHINAL-author__avatar";
       avatar.textContent = (comment.name || comment.user || "T")[0];
+      profileLink.append(avatar);
+      profileLink.addEventListener("click", () => { if (comment.user && typeof openProfile === "function") openProfile(comment.user); });
 
       const body = document.createElement("div");
 
@@ -118,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       actions.append(likeButton, replyButton);
       body.append(head, text, time, actions);
-      row.append(avatar, body);
+      row.append(profileLink, body);
       list.append(row);
     });
   }

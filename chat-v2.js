@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     list.replaceChildren();
     const box = document.createElement("div");
     box.className = "empty-friends";
-<<<<<<< HEAD
     const strong = document.createElement("strong");
     strong.textContent = "هنوز دوستی نداری";
     const p = document.createElement("p");
@@ -90,15 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
       cta.addEventListener("click", openAddFriendModal);
       box.append(cta);
     }
-=======
-    box.innerHTML = "<strong>هنوز دوستی نداری</strong><p>با وارد کردن آیدی یک بازیکن می‌تونی دوست جدید اضافه کنی.</p>";
-    const cta = document.createElement("button");
-    cta.type = "button";
-    cta.className = "add-friend-button";
-    cta.textContent = "افزودن دوست";
-    cta.addEventListener("click", openAddFriendModal);
-    box.append(cta);
->>>>>>> c3bf3f1 (update)
     list.append(box);
   }
 
@@ -245,19 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-<<<<<<< HEAD
   mobileBack?.addEventListener("click", () => page.classList.remove("conversation-open"));
   profileButton?.addEventListener("click", openFriendProfile);
   conversationUser?.addEventListener("click", openFriendProfile);
-  // The HTML currently has no sticker button. If it is added later, it will work without breaking chat.
   stickerButton?.addEventListener("click", () => { if (!input.disabled) { input.value += " 🙂"; input.focus(); } });
-=======
-  /* ---------- Wiring ---------- */
-
-  document.getElementById("mobileBack").addEventListener("click", () => page.classList.remove("conversation-open"));
-  document.getElementById("profileButton").addEventListener("click", openFriendProfile);
-  document.getElementById("conversationUser").addEventListener("click", openFriendProfile);
->>>>>>> c3bf3f1 (update)
   window.addEventListener("beforeunload", () => clearInterval(pollTimer));
 
   loadContacts();
