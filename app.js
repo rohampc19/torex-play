@@ -118,7 +118,7 @@ function initAuth() {
       const result = await PERFASHINALRequest("/login", { method: "POST", body: JSON.stringify({ username, password }) });
       localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
       localStorage.setItem("PERFASHINALLoggedIn", "true");
-      sessionStorage.removeItem("torexWelcomeShown");
+      sessionStorage.removeItem("wexoraWelcomeShown");
       location.href = "index.html?welcome=1";
     } catch (error) { if (box) { box.textContent = error.message; box.classList.add("show"); } }
   }, true);
@@ -157,7 +157,7 @@ function initAuth() {
           clearInterval(pollTimer);
           localStorage.setItem("PERFASHINALUser", JSON.stringify(result.user));
           localStorage.setItem("PERFASHINALLoggedIn", "true");
-          sessionStorage.removeItem("torexWelcomeShown");
+          sessionStorage.removeItem("wexoraWelcomeShown");
           if (box) { box.textContent = "✅ ثبت‌نام شما تایید شد! در حال ورود..."; box.classList.add("show", "success"); }
           showToast?.("تایید شد! خوش آمدی 🎮");
           setTimeout(() => { location.href = "index.html?welcome=1"; }, 1200);

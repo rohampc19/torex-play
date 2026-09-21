@@ -1,6 +1,6 @@
 @import url("./site-polish.css");
 
-/* TOREX PLAY — intentional mobile-first visual layer */
+/* WEXORA CHAT — intentional mobile-first visual layer */
 @media (max-width:760px){
   html,body{width:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%;}
   body{font-size:14px;}
@@ -127,7 +127,7 @@
 }
 
 
-/* TOREX PLAY mobile app navigation and safe-area layer. */
+/* WEXORA CHAT mobile app navigation and safe-area layer. */
 @media (max-width:760px){
   body.has-global-navigation{padding-bottom:calc(72px + env(safe-area-inset-bottom))!important}
   .global-header{height:58px!important;min-height:58px!important}

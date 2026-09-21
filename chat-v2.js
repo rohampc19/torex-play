@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return Number.isNaN(date.getTime()) ? "" : new Intl.DateTimeFormat("fa-IR", { hour: "2-digit", minute: "2-digit" }).format(date);
   };
   const normalize = value => String(value || "").trim().toLowerCase().replace(/^@/, "");
-  const toast = message => typeof showToast === "function" ? showToast(message) : (window.TOREXToast ? window.TOREXToast(message, "error") : alert(message));
+  const toast = message => typeof showToast === "function" ? showToast(message) : (window.WEXORAChatToast ? window.WEXORAChatToast(message, "error") : alert(message));
 
   function setConversationState(text, type = "empty-conversation") {
     messages.replaceChildren();

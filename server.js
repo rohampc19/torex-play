@@ -13,13 +13,13 @@ try { require("child_process").execSync("chcp 65001 >nul", { shell: "cmd.exe" })
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT || 3000);
-const DATA_FILE = path.join(ROOT, "torex-data.json");
+const DATA_FILE = path.join(ROOT, "wexora-data.json");
 const MIME = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "application/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".ico": "image/x-icon" };
 const rateBuckets = new Map();
 const pendingUsernames = new Set();
 const SESSION_MAX_AGE = 86400;
 function rateLimit(req, key, max = 60, windowMs = 60000) { const now = Date.now(); const address = String(req.socket.remoteAddress || "local").replace(/^::ffff:/, ""); const bucketKey = `${address}:${key}`; const bucket = rateBuckets.get(bucketKey) || { start: now, count: 0 }; if (now - bucket.start > windowMs) { bucket.start = now; bucket.count = 0; } bucket.count += 1; rateBuckets.set(bucketKey, bucket); if (rateBuckets.size > 10000) for (const [entry, value] of rateBuckets) if (now - value.start > windowMs) rateBuckets.delete(entry); return bucket.count <= max; }
-function sessionCookie(value, maxAge = SESSION_MAX_AGE) { const secure = process.env.NODE_ENV === "production" ? "; Secure" : ""; return `torex_session=${encodeURIComponent(value)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${secure}`; }
+function sessionCookie(value, maxAge = SESSION_MAX_AGE) { const secure = process.env.NODE_ENV === "production" ? "; Secure" : ""; return `wexora_session=${encodeURIComponent(value)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${secure}`; }
 function hashPasswordSync(password) { const salt = crypto.randomBytes(16); const derived = crypto.pbkdf2Sync(String(password), salt, 120000, 32, "sha256"); return `pbkdf2$120000$${salt.toString("hex")}$${derived.toString("hex")}`; }
 function hashPassword(password) { return new Promise((resolve, reject) => { const salt = crypto.randomBytes(16); crypto.scrypt(String(password), salt, 32, { N: 16384, r: 8, p: 1 }, (error, derived) => { if (error) return reject(error); resolve(`scrypt$16384$8$1$${salt.toString("hex")}$${derived.toString("hex")}`); }); }
 function verifyPassword(password, stored) {
@@ -31,7 +31,7 @@ function verifyPassword(password, stored) {
   });
 }
 function safeRequest(req, res, key, max) { if (rateLimit(req, key, max)) return true; reply(res, 429, { error: "تعداد درخواست‌ها بیش از حد مجاز است." }); return false; }
-function sameOrigin(req) { const origin = String(req.headers.origin || ""); const expectedHttp = `http://${req.headers.host}`; const expectedHttps = `https://${req.headers.host}`; if (origin) return origin === expectedHttp || origin === expectedHttps; const cookie = String(req.headers.cookie || ""); return !cookie.includes("torex_session="); }
+function sameOrigin(req) { const origin = String(req.headers.origin || ""); const expectedHttp = `http://${req.headers.host}`; const expectedHttps = `https://${req.headers.host}`; if (origin) return origin === expectedHttp || origin === expectedHttps; const cookie = String(req.headers.cookie || ""); return !cookie.includes("wexora_session="); }
 
 const initialData = {
   users: [
@@ -91,7 +91,7 @@ function validatePassword(value, repeat) {
   if (repeat !== undefined && password !== String(repeat)) return "رمز عبور و تکرار رمز عبور یکسان نیستند.";
   return "";
 }
-function sessionUser(data, req) { const header = String(req.headers.authorization || ""); const cookies = Object.fromEntries(String(req.headers.cookie || "").split(";").map(part => part.trim().split("=")).filter(part => part.length === 2).map(([key, ...value]) => [key, decodeURIComponent(value.join("="))])); const value = header.startsWith("Bearer ") ? header.slice(7).trim() : cookies.torex_session || ""; if (!/^[a-f0-9]{64}$/.test(value)) return null; const session = data.sessions.find(item => item.token === value && Date.now() - new Date(item.createdAt).getTime() < SESSION_MAX_AGE * 1000); return session ? data.users.find(user => user.id === session.userId && user.status === "approved") : null; }
+function sessionUser(data, req) { const header = String(req.headers.authorization || ""); const cookies = Object.fromEntries(String(req.headers.cookie || "").split(";").map(part => part.trim().split("=")).filter(part => part.length === 2).map(([key, ...value]) => [key, decodeURIComponent(value.join("="))])); const value = header.startsWith("Bearer ") ? header.slice(7).trim() : cookies.wexora_session || ""; if (!/^[a-f0-9]{64}$/.test(value)) return null; const session = data.sessions.find(item => item.token === value && Date.now() - new Date(item.createdAt).getTime() < SESSION_MAX_AGE * 1000); return session ? data.users.find(user => user.id === session.userId && user.status === "approved") : null; }
 function requireUser(data, req, res) { const user = sessionUser(data, req); if (!user) { reply(res, 401, { error: "برای این عملیات باید وارد شوید." }); return null; } return user; }
 function requireAdmin(data, req, res) { const user = requireUser(data, req, res); if (!user) return null; if (user.role !== "admin") { reply(res, 403, { error: "دسترسی مدیر لازم است." }); return null; } return user; }
 function notify(data, username, type, from, text) { data.notifications = data.notifications || []; data.notifications.push({ id: `no-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, user: username, type, from, text, read: false, createdAt: new Date().toISOString() }); }
@@ -199,7 +199,7 @@ async function api(req, res, url) {
   if (req.method === "GET" && url.pathname === "/api/notifications") { const viewer = requireUser(data, req, res); if (!viewer) return; return reply(res, 200, { notifications: (data.notifications || []).filter(n => n.user === viewer.username).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) }); }
   if (req.method === "POST" && url.pathname === "/api/notifications/read") { const viewer = requireUser(data, req, res); if (!viewer) return; (data.notifications || []).forEach(n => { if (n.user === viewer.username) n.read = true; }); saveData(data); return reply(res, 200, { ok: true }); }
   if (req.method === "POST" && url.pathname === "/api/login") { const body = await readBody(req); const username = String(body.username || "").trim().toLowerCase(); const password = String(body.password || ""); const user = data.users.find(u => String(u.username || "").toLowerCase() === username); const valid = user && password.length <= 128 && await verifyPassword(password, user.password); if (!user || !valid) return reply(res, 401, { error: "نام کاربری یا رمز عبور اشتباه است." }); if (user.status === "pending") return reply(res, 403, { error: "حساب شما هنوز توسط ادمین تایید نشده است." }); const value = token(); data.sessions.push({ token: value, userId: user.id, createdAt: new Date().toISOString() }); saveData(data); return reply(res, 200, { user: publicUser(user) }, { "Set-Cookie": sessionCookie(value) }); }
-  if (req.method === "POST" && url.pathname === "/api/logout") { const header = String(req.headers.authorization || ""); const cookies = String(req.headers.cookie || "").match(/(?:^|; )torex_session=([^;]+)/); const value = header.startsWith("Bearer ") ? header.slice(7) : (cookies ? cookies[1] : ""); data.sessions = (data.sessions || []).filter(item => item.token !== value); saveData(data); return reply(res, 200, { ok: true }, { "Set-Cookie": sessionCookie("", 0) }); }
+  if (req.method === "POST" && url.pathname === "/api/logout") { const header = String(req.headers.authorization || ""); const cookies = String(req.headers.cookie || "").match(/(?:^|; )wexora_session=([^;]+)/); const value = header.startsWith("Bearer ") ? header.slice(7) : (cookies ? cookies[1] : ""); data.sessions = (data.sessions || []).filter(item => item.token !== value); saveData(data); return reply(res, 200, { ok: true }, { "Set-Cookie": sessionCookie("", 0) }); }
   return reply(res, 404, { error: "مسیر API پیدا نشد." });
 }
 
@@ -212,7 +212,7 @@ const server = http.createServer(async (req, res) => {
       return res.end();
     }
     const aliases = { "/admin.html": "/admin-panel.html", "/admin": "/admin-panel.html" };
-    if (url.pathname === "/torex-data.json" || /\.(log|err|bak|db)$/i.test(url.pathname) || url.pathname.startsWith("/.")) { res.writeHead(404, securityHeaders()); return res.end("Not found"); }
+    if (url.pathname === "/wexora-data.json" || /\.(log|err|bak|db)$/i.test(url.pathname) || url.pathname.startsWith("/.")) { res.writeHead(404, securityHeaders()); return res.end("Not found"); }
     let requested = decodeURIComponent(aliases[url.pathname] || (url.pathname === "/" ? "/index.html" : url.pathname));
     const file = path.resolve(ROOT, `.${requested}`);
     const relative = path.relative(ROOT, file);
