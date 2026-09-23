@@ -3,12 +3,13 @@
 (function () {
   const BRAND_NAME = "VEXORA Chat";
   const path = location.pathname.toLowerCase();
-  const current = path.includes("leaderboard") ? "leaderboard" : path.includes("community") || path.includes("groups") || path.includes("group.html") ? "community" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
-  const pageTitles = { home: "خانه", news: "اخبار", community: "کامیونیتی", chat: "چت", profile: "پروفایل", leaderboard: "امتیازات" };
+  const current = path.includes("leaderboard") ? "leaderboard" : path.includes("hardware") ? "hardware" : path.includes("community") || path.includes("groups") || path.includes("group.html") ? "community" : path.includes("news") ? "news" : path.includes("chat") ? "chat" : path.includes("profile") ? "profile" : "home";
+  const pageTitles = { home: "خانه", news: "اخبار", community: "کامیونیتی", chat: "چت", profile: "پروفایل", leaderboard: "امتیازات", hardware: "سخت‌افزار" };
   document.title = `${BRAND_NAME} | ${pageTitles[current] || ""}`;
   const items = [
     { key: "home", href: "index.html", label: "خانه" },
     { key: "news", href: "news.html", label: "اخبار" },
+    { key: "hardware", href: "hardware.html", label: "سخت‌افزار" },
     { key: "community", href: "community.html", label: "کامیونیتی" },
     { key: "chat", href: "chat-v2.html", label: "چت" },
     { key: "profile", href: "profile.html", label: "پروفایل" },
@@ -28,7 +29,7 @@
       profile: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>'
     };
     const links = items.map(item => `<a class="global-nav__link${item.key === current ? " is-active" : ""}" data-page="${item.key}" href="${item.href}"><span>${item.label}</span></a>`).join("");
-    const mobileOrder = ["news", "home", "chat", "community", "profile"]; const mobileLinks = items.filter(item => mobileOrder.includes(item.key)).sort((a, b) => mobileOrder.indexOf(a.key) - mobileOrder.indexOf(b.key)).map(item => `<a class="mobile-nav__link${item.key === current ? " is-active" : ""}${item.key === "home" ? " mobile-nav__home" : ""}" data-page="${item.key}" href="${item.href}" aria-current="${item.key === current ? "page" : "false"}">${icons[item.key]}<span>${item.label}</span></a>`).join("");
+    const mobileOrder = ["news", "hardware", "home", "chat", "community", "profile"]; const mobileLinks = items.filter(item => mobileOrder.includes(item.key)).sort((a, b) => mobileOrder.indexOf(a.key) - mobileOrder.indexOf(b.key)).map(item => `<a class="mobile-nav__link${item.key === current ? " is-active" : ""}${item.key === "home" ? " mobile-nav__home" : ""}" data-page="${item.key}" href="${item.href}" aria-current="${item.key === current ? "page" : "false"}">${icons[item.key]}<span>${item.label}</span></a>`).join("");
     return `<header class="global-header" data-global-header><div class="global-header__inner"><a class="global-brand" href="index.html" aria-label="VEXORA Chat"><span class="global-brand__text">${BRAND_NAME}</span></a><nav class="global-nav" aria-label="ناوبری اصلی">${links}</nav><div class="global-actions"><a class="global-login" href="login.html">ورود</a><a class="global-user" href="profile.html" hidden></a></div></div></header><nav class="mobile-nav" aria-label="ناوبری موبایل">${mobileLinks}</nav>`;
   }
   const LEGACY_SELECTORS = [".mobile-nav", ".mobile-bottom-nav", ".mobile-chat-nav", ".community-mobile-nav", ".bottom-nav", ".home-header", ".site-header", ".profile-header", ".slim-nav", ".main-header"];

@@ -37,6 +37,17 @@
       "avatar": "K",
       "status": "pending",
       "friends": []
+    },
+    {
+      "id": "u-31e2b9a6-e48a-483a-912d-0db76eb634b6",
+      "username": "qa_38389",
+      "name": "qa_38389",
+      "password": "scrypt$16384$8$1$3937b37e647309363e2a90beefc76896$5d7e83e84ebc3b73cf83c1151f712b0c192c90bbe19400414279fd5f04b0722f",
+      "score": 0,
+      "favoriteGame": "—",
+      "avatar": "Q",
+      "status": "pending",
+      "friends": []
     }
   ],
   "groups": [
@@ -149,5 +160,6 @@
       "createdAt": "2026-09-06T18:18:55.947Z"
     }
   ],
-  "sessions": []
+  "sessions": [],
+  "reports": []
 }
