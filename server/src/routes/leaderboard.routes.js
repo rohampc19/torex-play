@@ -1,0 +1,1 @@
+import {Router} from 'express'; import {requireAuth} from '../middleware/auth.js'; import * as c from '../controllers/leaderboard.controller.js'; export const leaderboardRouter=Router();leaderboardRouter.get('/',requireAuth,c.list);
