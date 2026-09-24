@@ -1,0 +1,1 @@
+export function notFound(_req,_res,next){next(Object.assign(new Error('مسیر پیدا نشد.'),{status:404}))}export function errorHandler(err,_req,res,_next){const status=err.status||500;res.status(status).json({message:status>=500?'خطای داخلی سرور.':err.message, ...(err.details?{details:err.details}:{})})}

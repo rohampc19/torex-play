@@ -1,0 +1,1 @@
+import mongoose from 'mongoose';const schema=new mongoose.Schema({type:{type:String,index:true},actorId:String,targetId:String,meta:mongoose.Schema.Types.Mixed},{timestamps:true});schema.index({createdAt:-1});export const ChatEvent=mongoose.model('ChatEvent',schema);

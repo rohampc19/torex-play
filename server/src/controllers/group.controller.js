@@ -1,0 +1,11 @@
+import * as s from '../services/group.service.js';
+export const list=async(_req,res)=>res.json({groups:await s.list()});
+export const create=async(req,res)=>res.status(201).json({group:await s.create(req.user.sub,req.body)});
+export const details=async(req,res)=>res.json(await s.getDetails(req.user.sub,req.params.id));
+export const join=async(req,res)=>res.json(await s.join(req.user.sub,req.params.id));
+export const memberDecision=async(req,res)=>{if(!['approve','reject'].includes(req.params.action))return res.status(400).json({message:'عملیات نامعتبر است.'});res.json(await s.approve(req.user.sub,req.params.id,req.params.userId,req.params.action==='approve'));};
+export const invite=async(req,res)=>res.json(await s.invite(req.user.sub,req.params.id,req.body.username));
+export const removeMember=async(req,res)=>res.json(await s.remove(req.user.sub,req.params.id,req.params.userId));
+export const transfer=async(req,res)=>res.json(await s.promoteOwner(req.user.sub,req.params.id,req.params.userId));
+export const leave=async(req,res)=>res.json(await s.leave(req.user.sub,req.params.id));
+export const destroy=async(req,res)=>res.json(await s.destroy(req.user.sub,req.params.id));

@@ -1,0 +1,31 @@
+import {useEffect,useMemo,useState} from 'react';
+import {Link,useParams} from 'react-router-dom';
+import {userApi,friendApi} from '../services/api';
+import {useAuth} from '../context/AuthContext';
+import {useToast} from '../context/ToastContext';
+import GlassCard from '../components/GlassCard';
+import {Loading,ErrorState} from '../components/States';
+
+const GAMES=['GTA VI','VALORANT','Minecraft','EA SPORTS FC','Counter-Strike 2','Fortnite','Baldur’s Gate 3','Black Myth: Wukong','Apex Legends','Rocket League','Overwatch 2','Elden Ring'];
+
+export default function Profile(){
+  const {username}=useParams(),{user,logout,setUser}=useAuth(),toast=useToast();
+  const mine=!username||username.toLowerCase()===user?.username?.toLowerCase();
+  const target=mine?user?.username:username;
+  const [data,setData]=useState(null),[err,setErr]=useState(''),[bio,setBio]=useState(''),[displayName,setDisplayName]=useState(''),[avatarUrl,setAvatarUrl]=useState(''),[games,setGames]=useState([]),[saving,setSaving]=useState(false);
+  const load=()=>{if(!target)return;setErr('');userApi.profile(target).then(r=>{setData(r.user);setBio(r.user.bio||'');setDisplayName(r.user.displayName||'');setAvatarUrl(r.user.avatarUrl||'');setGames(r.user.favoriteGames||[r.user.favoriteGame].filter(Boolean))}).catch(e=>setErr(e.message))};
+  useEffect(load,[target]);
+  const toggleGame=g=>setGames(v=>v.includes(g)?v.filter(x=>x!==g):v.length>=5?v:[...v,g]);
+  const save=async()=>{if(games.length<3){toast.error('حداقل ۳ بازی را انتخاب کن.');return}setSaving(true);try{const r=await userApi.update({displayName,bio,avatarUrl:avatarUrl||null,favoriteGames:games});setData(d=>({...d,...r.user}));setUser({...user,...r.user});toast.success('پروفایل ذخیره شد.')}catch(e){toast.error(e.message)}finally{setSaving(false)}};
+  const follow=async()=>{try{const r=await userApi.follow(data.id);setData(d=>({...d,following:r.following,followersCount:Math.max(0,(d.followersCount||0)+(r.following?1:-1))}))}catch(e){toast.error(e.message)}};
+  const addFriend=async()=>{try{await friendApi.request(data.username);toast.success('درخواست دوستی ارسال شد.')}catch(e){toast.error(e.message)}};
+  const online=data?.online;
+  if(err)return <ErrorState message={err} onRetry={load}/>;if(!data)return <Loading/>;
+  const initials=(data.displayName||data.username).slice(0,1).toUpperCase();
+  return <div className="mx-auto max-w-5xl space-y-5">
+    <GlassCard><div className="flex flex-col gap-5 md:flex-row md:items-center"><div className="grid h-28 w-28 shrink-0 place-items-center overflow-hidden rounded-full border border-cyan-300/30 bg-white/5 text-4xl font-black text-cyan-200">{data.avatarUrl?<img src={data.avatarUrl} alt={`تصویر ${data.displayName}`} className="h-full w-full object-cover"/>:initials}</div><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><h1 className="text-3xl font-black">{data.displayName}</h1><span className={`rounded-xl px-2 py-1 text-xs ${online?'bg-emerald-300/10 text-emerald-300':'bg-white/5 text-slate-500'}`}>{online?'● آنلاین':'● آفلاین'}</span></div><p className="mt-1 text-slate-400">@{data.username}</p><p className="mt-3 max-w-2xl leading-7 text-slate-300">{data.bio||'این گیمر هنوز بیویی ثبت نکرده است.'}</p><div className="mt-4 flex flex-wrap gap-2">{data.favoriteGames?.map(g=><span key={g} className="rounded-xl bg-purple-300/10 px-2 py-1 text-xs text-purple-200">{g}</span>)}</div></div><div className="mr-auto flex flex-wrap gap-2">{mine?<button onClick={logout} className="rounded-2xl border border-rose-300/20 px-4 py-3 text-rose-200">خروج</button>:user?<><button onClick={follow} className="rounded-2xl bg-cyan-300 px-4 py-3 font-bold text-slate-950">{data.following?'لغو دنبال‌کردن':'دنبال کردن'}</button><button onClick={addFriend} className="rounded-2xl border border-white/10 px-4 py-3">افزودن دوست</button></>:<Link to="/login" className="rounded-2xl bg-cyan-300 px-4 py-3 font-bold text-slate-950">ورود برای ارتباط</Link>}</div></div></GlassCard>
+    <div className="grid gap-4 sm:grid-cols-4"><Stat n={data.followersCount||0} t="دنبال‌کننده"/><Stat n={data.followingCount||0} t="دنبال‌شونده"/><Stat n={data.score||0} t="امتیاز"/><Stat n={data.level||1} t="سطح"/></div>
+    {mine&&<GlassCard><h2 className="text-xl font-bold">ویرایش پروفایل</h2><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="text-sm text-slate-300">نام نمایشی<input value={displayName} onChange={e=>setDisplayName(e.target.value)} maxLength={60} className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-3 py-3"/></label><label className="text-sm text-slate-300">آدرس تصویر پروفایل<input value={avatarUrl} onChange={e=>setAvatarUrl(e.target.value)} placeholder="https://..." className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-3 py-3"/></label><label className="text-sm text-slate-300 md:col-span-2">بیوگرافی<textarea value={bio} onChange={e=>setBio(e.target.value)} maxLength={500} className="mt-2 min-h-28 w-full rounded-2xl border border-white/10 bg-white/5 p-3"/></label></div><div className="mt-5"><p className="text-sm text-slate-300">بازی‌های مورد علاقه <span className="text-xs text-slate-500">حداقل ۳، حداکثر ۵</span></p><div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">{GAMES.map(g=><button type="button" key={g} onClick={()=>toggleGame(g)} className={`rounded-xl px-3 py-2 text-right text-sm ${games.includes(g)?'bg-cyan-300 text-slate-950':'border border-white/10 bg-white/5 text-slate-300'}`}>{g}</button>)}</div></div><button disabled={saving} onClick={save} className="mt-5 rounded-2xl bg-cyan-300 px-5 py-3 font-bold text-slate-950">{saving?'در حال ذخیره...':'ثبت تغییرات'}</button></GlassCard>}
+  </div>;
+}
+function Stat({n,t}){return <GlassCard className="p-4"><b className="text-2xl">{n}</b><p className="mt-1 text-xs text-slate-500">{t}</p></GlassCard>}

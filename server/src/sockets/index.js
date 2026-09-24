@@ -1,0 +1,1 @@
+import {verifyAccess} from '../utils/auth.js';export function socketAuth(socket,next){try{const token=socket.handshake.auth?.token||socket.request.headers.cookie?.match(/accessToken=([^;]+)/)?.[1];if(!token)throw new Error();socket.user=verifyAccess(token);next()}catch{next(new Error('Unauthorized'))}}

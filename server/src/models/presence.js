@@ -1,0 +1,1 @@
+import mongoose from 'mongoose';const schema=new mongoose.Schema({username:{type:String,unique:true,index:true},online:Boolean,lastSeen:Date},{timestamps:true});export const Presence=mongoose.model('Presence',schema);

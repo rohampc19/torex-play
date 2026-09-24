@@ -1,0 +1,3 @@
+import 'dotenv/config';import {z} from 'zod';
+const S=z.object({NODE_ENV:z.string().default('development'),PORT:z.coerce.number().int().positive().default(4000),CLIENT_ORIGIN:z.string().url().default('http://localhost:5173'),DATABASE_URL:z.string().min(1),MONGODB_URI:z.string().min(1),JWT_ACCESS_SECRET:z.string().min(32),JWT_REFRESH_SECRET:z.string().min(32),ACCESS_TOKEN_TTL:z.string().default('15m'),REFRESH_TOKEN_TTL_DAYS:z.coerce.number().positive().default(30),COOKIE_SECURE:z.string().default('false').transform(v=>v==='true'),RATE_LIMIT_WINDOW_MS:z.coerce.number().default(900000),RATE_LIMIT_MAX:z.coerce.number().default(120),UPLOAD_DIR:z.string().default('uploads')});
+export const env=S.parse(process.env);

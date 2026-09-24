@@ -1,0 +1,14 @@
+import {Router} from 'express';
+import * as c from '../controllers/admin.controller.js';
+import {requireAuth,requireRole} from '../middleware/auth.js';
+const r=Router();
+r.use(requireAuth,requireRole('admin','moderator'));
+r.get('/stats',c.stats);
+r.get('/users',c.users);
+r.get('/users/pending',c.pending);
+r.post('/users/:id/:action',c.approve);
+r.post('/users/:id/block',c.block);
+r.post('/users/:id/unblock',c.unblock);
+r.get('/reports',c.reports);r.get('/logs',c.logs);
+r.post('/reports/:id/close',c.closeReport);
+export default r;

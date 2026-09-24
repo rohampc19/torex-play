@@ -1,0 +1,1 @@
+import {pool} from '../config/db.js';export const create=async(req,res)=>{const {kind,targetId,reason}=req.body;await pool.query('insert into reports(kind,target_id,reporter_id,reason) values($1,$2,$3,$4)',[kind,targetId,req.user.sub,reason]);res.status(201).json({ok:true})};

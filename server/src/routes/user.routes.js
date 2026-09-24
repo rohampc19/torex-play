@@ -1,0 +1,10 @@
+import {Router} from 'express';
+import {z} from 'zod';
+import * as c from '../controllers/user.controller.js';
+import {requireAuth,optionalAuth} from '../middleware/auth.js';
+import {validate} from '../middleware/validate.js';
+const r=Router();
+r.get('/:username',optionalAuth,c.profile);
+r.patch('/me',requireAuth,validate(z.object({displayName:z.string().min(2).max(60).optional(),bio:z.string().max(500).optional(),avatarUrl:z.string().url().max(2000).refine(v=>/^https?:\/\//i.test(v),'آدرس تصویر باید http یا https باشد.').nullable().optional(),favoriteGame:z.string().min(2).max(60).optional(),favoriteGames:z.array(z.string().min(2).max(60)).max(10).optional()})),c.update);
+r.post('/:id/follow',requireAuth,c.follow);
+export default r;

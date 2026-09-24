@@ -1,0 +1,1 @@
+import pg from 'pg';import mongoose from 'mongoose';import {env} from './env.js';const {Pool}=pg;export const pool=new Pool({connectionString:env.DATABASE_URL,max:10});export async function connectMongo(){await mongoose.connect(env.MONGODB_URI);}

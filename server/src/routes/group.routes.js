@@ -1,0 +1,17 @@
+import {Router} from 'express';
+import {z} from 'zod';
+import * as c from '../controllers/group.controller.js';
+import {requireAuth} from '../middleware/auth.js';
+import {validate} from '../middleware/validate.js';
+const r=Router();
+r.get('/',c.list);
+r.post('/',requireAuth,validate(z.object({name:z.string().trim().min(2).max(80),description:z.string().max(500).default(''),isPrivate:z.boolean()})),c.create);
+r.get('/:id',requireAuth,c.details);
+r.post('/:id/join',requireAuth,c.join);
+r.post('/:id/members/:userId/:action',requireAuth,c.memberDecision);
+r.post('/:id/invite',requireAuth,validate(z.object({username:z.string().min(3).max(24).regex(/^[a-zA-Z0-9_]+$/)})),c.invite);
+r.delete('/:id/members/:userId',requireAuth,c.removeMember);
+r.post('/:id/transfer/:userId',requireAuth,c.transfer);
+r.post('/:id/leave',requireAuth,c.leave);
+r.delete('/:id',requireAuth,c.destroy);
+export default r;

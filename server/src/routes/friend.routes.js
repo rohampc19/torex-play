@@ -1,0 +1,1 @@
+import {Router} from 'express';import {requireAuth} from '../middleware/auth.js';import * as c from '../controllers/friend.controller.js';const r=Router();r.use(requireAuth);r.get('/',c.list);r.post('/:username',c.request);r.post('/requests/:id/:action',c.decide);r.post('/:username/block',c.block);export default r;

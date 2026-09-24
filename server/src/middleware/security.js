@@ -1,0 +1,1 @@
+import helmet from 'helmet';import cors from 'cors';import rateLimit from 'express-rate-limit';import cookieParser from 'cookie-parser';import {env} from '../config/env.js';export const security=[helmet(),cors({origin:env.CLIENT_ORIGIN,credentials:true}),cookieParser(),rateLimit({windowMs:env.RATE_LIMIT_WINDOW_MS,max:env.RATE_LIMIT_MAX,standardHeaders:true,legacyHeaders:false})];

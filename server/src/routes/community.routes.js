@@ -1,0 +1,13 @@
+import {Router} from 'express';
+import {z} from 'zod';
+import * as c from '../controllers/community.controller.js';
+import {requireAuth,optionalAuth} from '../middleware/auth.js';
+import {validate} from '../middleware/validate.js';
+const r=Router();
+r.get('/',optionalAuth,c.list);
+r.post('/',requireAuth,validate(z.object({body:z.string().min(1).max(2000),imageUrl:z.string().url().max(2000).refine(v=>/^https?:\/\//i.test(v),'آدرس تصویر باید http یا https باشد.').optional().or(z.literal(''))})),c.create);
+r.post('/:id/like',requireAuth,c.like);
+r.get('/:id/comments',c.comments);
+r.post('/:id/comments',requireAuth,validate(z.object({text:z.string().min(1).max(500)})),c.comment);
+r.delete('/:id',requireAuth,c.remove);
+export default r;

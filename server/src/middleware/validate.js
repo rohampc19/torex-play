@@ -1,0 +1,1 @@
+export const validate=schema=>(req,_res,next)=>{const r=schema.safeParse(req.body);if(!r.success)return next(Object.assign(new Error('اطلاعات واردشده معتبر نیست.'),{status:400,details:r.error.flatten()}));req.body=r.data;next()};

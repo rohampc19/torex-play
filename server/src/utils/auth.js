@@ -1,0 +1,2 @@
+import jwt from 'jsonwebtoken';import crypto from 'node:crypto';import {env} from '../config/env.js';
+export const signAccess=(u)=>jwt.sign({sub:String(u.id),username:u.username,role:u.role},env.JWT_ACCESS_SECRET,{expiresIn:env.ACCESS_TOKEN_TTL});export const signRefresh=(id,jti)=>jwt.sign({sub:String(id),jti},env.JWT_REFRESH_SECRET,{expiresIn:`${env.REFRESH_TOKEN_TTL_DAYS}d`});export const verifyAccess=t=>jwt.verify(t,env.JWT_ACCESS_SECRET);export const verifyRefresh=t=>jwt.verify(t,env.JWT_REFRESH_SECRET);export const randomToken=()=>crypto.randomBytes(32).toString('hex');

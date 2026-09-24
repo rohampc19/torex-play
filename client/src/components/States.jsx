@@ -1,0 +1,3 @@
+export function Loading({label='در حال بارگذاری...'}){return <div role="status" className="py-16 text-center text-slate-300"><div className="mx-auto mb-4 h-9 w-9 animate-spin rounded-full border-2 border-cyan-300 border-t-transparent"/><p>{label}</p></div>}
+export function Empty({label='موردی پیدا نشد.'}){return <div className="py-14 text-center text-slate-400">{label}</div>}
+export function ErrorState({message='خطایی رخ داد.',onRetry}){return <div role="alert" className="py-14 text-center"><p className="text-rose-300">{message}</p>{onRetry&&<button onClick={onRetry} className="focus-ring mt-4 rounded-xl border border-white/10 px-4 py-2 text-sm hover:border-cyan-300/40">تلاش دوباره</button>}</div>}

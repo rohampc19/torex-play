@@ -1,0 +1,13 @@
+import {Router} from 'express';
+import {z} from 'zod';
+import * as c from '../controllers/news.controller.js';
+import {requireAuth,optionalAuth} from '../middleware/auth.js';
+import {validate} from '../middleware/validate.js';
+const r=Router();
+const comment= z.object({text:z.string().trim().min(1).max(500)});
+r.get('/',c.list);
+r.get('/:id',optionalAuth,c.get);
+r.post('/:id/like',requireAuth,c.like);
+r.post('/:id/comments',requireAuth,validate(comment),c.comment);
+r.post('/:id/comments/:commentId/like',requireAuth,c.likeComment);
+export default r;

@@ -1,0 +1,1 @@
+import {Link} from 'react-router-dom';export default function NotFound(){return <div className="py-20 text-center"><h1 className="text-6xl font-black">404</h1><p className="mt-3 text-slate-400">صفحه پیدا نشد.</p><Link to="/" className="mt-6 inline-block rounded-2xl bg-cyan-300 px-5 py-3 font-bold text-slate-950">بازگشت به خانه</Link></div>}
