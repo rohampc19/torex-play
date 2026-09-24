@@ -1,0 +1,1 @@
+import mongoose from 'mongoose'; const schema=new mongoose.Schema({userId:{type:String,unique:true,index:true},online:{type:Boolean,default:false},socketIds:{type:[String],default:[]},lastSeen:{type:Date,default:Date.now,index:true}},{timestamps:true,versionKey:false}); export const Presence=mongoose.model('Presence',schema);
