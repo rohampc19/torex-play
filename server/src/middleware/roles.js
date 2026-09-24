@@ -1,0 +1,1 @@
+import {AppError} from './error.js'; export const requireRole=(...roles)=>(req,res,next)=>{if(!req.user||!roles.includes(req.user.role))return next(new AppError(403,'دسترسی کافی نداری.'));next()}
