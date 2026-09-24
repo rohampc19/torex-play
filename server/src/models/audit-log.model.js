@@ -1,0 +1,1 @@
+import mongoose from 'mongoose'; const schema=new mongoose.Schema({actorId:{type:String,index:true},action:{type:String,index:true},targetType:String,targetId:String,meta:{type:mongoose.Schema.Types.Mixed},createdAt:{type:Date,default:Date.now,index:true}},{versionKey:false});schema.index({action:1,createdAt:-1});export const AuditLog=mongoose.model('AuditLog',schema);
