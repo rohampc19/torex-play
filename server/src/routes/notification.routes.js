@@ -1,0 +1,1 @@
+import {Router} from 'express'; import {requireAuth} from '../middleware/auth.js'; import * as c from '../controllers/notification.controller.js'; export const notificationRouter=Router();notificationRouter.get('/',requireAuth,c.list);notificationRouter.patch('/:id/read',requireAuth,c.read);
