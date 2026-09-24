@@ -1,0 +1,1 @@
+import {AppError} from './error.js'; export const validate=(schema,part='body')=>(req,res,next)=>{const parsed=schema.safeParse(req[part]);if(!parsed.success)return next(new AppError(400,'اطلاعات واردشده معتبر نیست.',parsed.error.flatten()));req[part]=parsed.data;next()}
