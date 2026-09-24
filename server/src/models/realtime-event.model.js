@@ -1,0 +1,1 @@
+import mongoose from 'mongoose'; const schema=new mongoose.Schema({event:{type:String,index:true},actorId:{type:String,index:true},targetId:String,payload:{type:mongoose.Schema.Types.Mixed},createdAt:{type:Date,default:Date.now,index:true}},{versionKey:false}); schema.index({event:1,createdAt:-1});export const RealtimeEvent=mongoose.model('RealtimeEvent',schema);
