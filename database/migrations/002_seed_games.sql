@@ -1,0 +1,1 @@
+-- Game catalog can be introduced later; favorite-game values are validated by the API.
