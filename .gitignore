@@ -5,5 +5,15 @@ dist/
 !.env.example
 uploads/
 *.log
+*.pid
+*.seed
 .DS_Store
 .vscode/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+server/.data/
+server/tmp/
+tools/node/
