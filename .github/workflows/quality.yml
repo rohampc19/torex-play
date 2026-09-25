@@ -17,8 +17,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: server/package-lock.json
       - run: npm install
       - run: npm test
       - run: npm audit --audit-level=high
@@ -33,8 +31,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: client/package-lock.json
       - run: npm install
       - run: npm run build
       - run: npm audit --audit-level=high
